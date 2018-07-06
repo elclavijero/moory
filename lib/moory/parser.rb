@@ -1,5 +1,5 @@
 module Moory
-  class ConfigParser
+  class Parser
     attr_reader :config, :staged
   
     def initialize

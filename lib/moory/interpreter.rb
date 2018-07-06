@@ -17,7 +17,7 @@ module Moory
     end
 
     def load(source)
-      p = Moory::ConfigParser.new
+      p = Moory::Parser.new
       @graph = p.analyse(source)
     end
 

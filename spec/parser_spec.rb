@@ -1,6 +1,6 @@
-RSpec.describe Moory::ConfigParser do
+RSpec.describe Moory::Parser do
   let(:the_parser) do
-    Moory::ConfigParser.new
+    Moory::Parser.new
   end
 
   describe '#analyse' do

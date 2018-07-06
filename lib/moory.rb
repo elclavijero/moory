@@ -1,6 +1,6 @@
 require "moory/version"
 require "moory/interpreter"
-require "moory/configparser"
+require "moory/parser"
 
 module Moory
   # Your code goes here...
