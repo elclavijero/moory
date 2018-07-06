@@ -1,9 +1,9 @@
 module Moory
   class Parser
-    attr_reader :config, :staged
+    attr_reader :graph, :staged
   
     def initialize
-      @config   = {}
+      @graph   = {}
       prime
     end
   
@@ -13,7 +13,7 @@ module Moory
         reset
       end
 
-      config
+      graph
     end
   
     private
@@ -31,7 +31,7 @@ module Moory
     end
   
     def store
-      y = config.fetch(staged['source']) { |k| config[k] = {} }
+      y = graph.fetch(staged['source']) { |k| graph[k] = {} }
       z = y.fetch(staged['stimulus'])    { |k| y[k] = {} }
       z.merge!({ 
         state:    staged['target'],
