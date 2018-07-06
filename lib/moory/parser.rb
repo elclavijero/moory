@@ -8,7 +8,11 @@ module Moory
     end
   
     def analyse(input)
-      input.each_line { |line| scan(line)}
+      input.each_line do |line| 
+        scan(line); store if valid?
+        reset
+      end
+
       config
     end
   
@@ -16,8 +20,6 @@ module Moory
   
     def scan(string)
       string.chomp.each_char { |c| interpret(c) }
-      store if valid?
-      reset
     end
   
     def interpret(char)
