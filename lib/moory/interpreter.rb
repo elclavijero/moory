@@ -2,15 +2,15 @@ require 'set'
 
 module Moory
   class Interpreter
-    attr_accessor :config, :effectors, :state
+    attr_accessor :graph, :effectors, :state
     attr_reader   :fallback_effector, :default_proc
 
     SKIP = proc {}
     WARN = proc { |msg| warn "Did not understand: #{msg}" }
 
-    def initialize(config={}, &block)
-      @config    = config
-      @effectors = {}
+    def initialize(graph={}, &block)
+      @graph        = graph
+      @effectors    = {}
       @default_proc = SKIP
 
       instance_eval &block if block_given?
@@ -18,7 +18,7 @@ module Moory
 
     def load(source)
       p = Moory::ConfigParser.new
-      @config = p.analyse(source)
+      @graph = p.analyse(source)
     end
 
     def fallback_effector=(obj)
@@ -44,24 +44,24 @@ module Moory
     end
 
     def receptors
-      config[state].keys.to_set
+      graph[state].keys.to_set
     end
 
     def states
-      @states ||= config.keys.to_set
+      @states ||= graph.keys.to_set
     end
 
     def alphabet
       @alphabet ||= Set.new(
-        config.each_value.collect { |m| m.keys }.flatten
+        graph.each_value.collect { |m| m.keys }.flatten
       )
     end
-    
+
     private
 
     def respond(msg)
       dispatch(msg)
-      @state = config[state][msg][:state]
+      @state = graph[state][msg][:state]
     end
 
     def dispatch(msg)
@@ -71,7 +71,7 @@ module Moory
     end
 
     def effector(msg)
-      candidate = config[state][msg][:effector]
+      candidate = graph[state][msg][:effector]
 
       if candidate.kind_of?(String)
         effectors[candidate]
@@ -81,7 +81,7 @@ module Moory
     end
 
     def output(msg)
-      config[state][msg][:output]
+      graph[state][msg][:output]
     end
 
     def bad_call(msg)

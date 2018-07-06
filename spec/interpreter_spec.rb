@@ -5,7 +5,7 @@ RSpec.describe Moory::Interpreter do
 
   describe '#states' do
     before do
-      the_interpreter.config = {
+      the_interpreter.graph = {
         '0' => {}, '1' => {}, '2' => {}
       }
     end
@@ -17,7 +17,7 @@ RSpec.describe Moory::Interpreter do
 
   describe '#alphabet' do
     before do
-      the_interpreter.config = {
+      the_interpreter.graph = {
         '0' => { 'a' => {} },
         '1' => { 'b' => {} }, 
         '2' => { 'b' => {} },
@@ -31,7 +31,7 @@ RSpec.describe Moory::Interpreter do
 
   describe '#receptors' do
     before(:each) do
-      the_interpreter.config = {
+      the_interpreter.graph = {
         '0' => { 'a' => {} },
         '1' => { 'b' => {} }, 
         '2' => { 'b' => {} },
@@ -50,7 +50,7 @@ RSpec.describe Moory::Interpreter do
   describe '#understand?' do
     context 'providing the interpreter has been assigned a state' do
       before(:each) do
-        the_interpreter.config = {
+        the_interpreter.graph = {
           '0' => { 'a' => {} },
           '1' => { 'b' => {} }, 
           '2' => { 'b' => {} },
@@ -69,7 +69,7 @@ RSpec.describe Moory::Interpreter do
   describe '#putm' do
     describe 'transitions between states' do
       before(:each) do
-        the_interpreter.config = {
+        the_interpreter.graph = {
           'origin' => { 'known message' => { state: 'settlement' } }
         }
         the_interpreter.state = 'origin'
@@ -127,7 +127,7 @@ RSpec.describe Moory::Interpreter do
         spy("the fallback effector")
       end
 
-      let(:full_config) do
+      let(:full_graph) do
         {
           'origin' => { 'stimulus' => 
             { 
@@ -139,7 +139,7 @@ RSpec.describe Moory::Interpreter do
         }
       end
 
-      let(:config_lacks_effector) do
+      let(:graph_lacks_effector) do
         {
           'origin' => { 'stimulus' => 
             { 
@@ -150,7 +150,7 @@ RSpec.describe Moory::Interpreter do
         }
       end
 
-      let(:config_lacks_output) do
+      let(:graph_lacks_output) do
         {
           'origin' => { 'stimulus' => 
             { 
@@ -161,7 +161,7 @@ RSpec.describe Moory::Interpreter do
         }
       end
 
-      let(:config_lacks_both_output_and_effector) do
+      let(:graph_lacks_both_output_and_effector) do
         {
           'origin' => { 'stimulus' => 
             { 
@@ -178,7 +178,7 @@ RSpec.describe Moory::Interpreter do
       context 'when the transition has associated output' do
         context 'and the transition is associated with an effector' do
           before do
-            the_interpreter.config = full_config
+            the_interpreter.graph = full_graph
           end
 
           it 'will call that effector, supplying the output as its argument' do
@@ -190,7 +190,7 @@ RSpec.describe Moory::Interpreter do
 
         context 'but the transition is not associated with an effector' do
           before do
-            the_interpreter.config = config_lacks_effector
+            the_interpreter.graph = graph_lacks_effector
           end
 
           context 'and the fallback effector has been defined' do
@@ -208,7 +208,7 @@ RSpec.describe Moory::Interpreter do
 
       context 'when the transition lacks associated output' do
         before do
-          the_interpreter.config = config_lacks_output
+          the_interpreter.graph = graph_lacks_output
         end
 
         context 'but the transition is associated with an effector' do
@@ -221,7 +221,7 @@ RSpec.describe Moory::Interpreter do
 
         context 'and the transition is not associated with an effector' do
           before do
-            the_interpreter.config = config_lacks_both_output_and_effector
+            the_interpreter.graph = graph_lacks_both_output_and_effector
           end
 
           context 'but the fallback effector has been defined' do
@@ -248,7 +248,7 @@ RSpec.describe Moory::Interpreter do
 
       context 'when a transition is associated with an uncallable effector' do
         before do
-          the_interpreter.config = {
+          the_interpreter.graph = {
             'origin' => {
               'stimulus' => {
                 state: 'settlement',
@@ -268,7 +268,7 @@ RSpec.describe Moory::Interpreter do
 
       context 'when a transition is not associated with an effector, but has output' do
         before do
-          the_interpreter.config = {
+          the_interpreter.graph = {
             'origin' => {
               'stimulus' => {
                 state: 'settlement',
