@@ -61,7 +61,7 @@ module Moory
 
     def respond(msg)
       dispatch(msg)
-      @state = graph[state][msg][:state]
+      resettle(msg)
     end
 
     def dispatch(msg)
@@ -72,6 +72,10 @@ module Moory
           _effector.call :
           _effector.call(_output)
       end
+    end
+
+    def resettle(msg)
+      @state = graph[state][msg][:state]
     end
 
     def effector(msg)
