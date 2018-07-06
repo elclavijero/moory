@@ -16,7 +16,6 @@ module Moory
       instance_eval &block if block_given?
     end
 
-    # Interpreter configuration
     def load(source)
       p = Moory::ConfigParser.new
       @config = p.analyse(source)
@@ -32,7 +31,22 @@ module Moory
       @default_proc = obj.respond_to?(:call) ? obj : nil
     end
 
-    # Config queries
+    def putm(msg)
+      understand?(msg) ? respond(msg) : bad_call(msg)
+    end
+  
+    def putms(*msgs)
+      msgs.each { |msg| putm msg }
+    end
+
+    def understand?(msg)
+      receptors.include?(msg)
+    end
+
+    def receptors
+      config[state].keys.to_set
+    end
+
     def states
       @states ||= config.keys.to_set
     end
@@ -42,36 +56,17 @@ module Moory
         config.each_value.collect { |m| m.keys }.flatten
       )
     end
-
-    def receptors
-      config[state].keys.to_set
-    end
-
-    def understand?(msg)
-      receptors.include?(msg)
-    end
-  
-    # Message ingress
-    def putm(msg)
-      understand?(msg) ? respond(msg) : bad_call(msg)
-    end
-  
-    def putms(*msgs)
-      msgs.each { |msg| putm msg }
-    end
-
     private
 
-    # Message handling
     def respond(msg)
       dispatch(msg)
       @state = config[state][msg][:state]
     end
 
     def dispatch(msg)
-      effector, output = effector(msg), output(msg)
+      _effector, _output = effector(msg), output(msg)
 
-      effector.call(output) if effector.respond_to?(:call)
+      _effector.call(_output) if _effector.respond_to?(:call)
     end
 
     def effector(msg)
