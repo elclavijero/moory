@@ -13,7 +13,7 @@ module Moory
         reset
       end
 
-      graph
+      return graph
     end
   
     private
@@ -47,42 +47,6 @@ module Moory
       staged['target']
     end
 
-    def interpreter
-      @interpreter ||= Moory::Interpreter.new(
-        graph: {
-        '0' => {
-          ':'  => { state: '1', effector: method(:stimulus) },
-          ' '  => { state: '0' },
-          '\t' => { state: '0' }
-        },
-        '1' => { 
-          '/'  => { state: '2', effector: method(:output) },
-          ':'  => { state: '4', effector: method(:target) },
-          ' '  => { state: '1' },
-          '\t' => { state: '1' }
-        },
-        '2' => {
-          ':'  => { state: '4', effector: method(:target) },
-          '/'  => { state: '3', effector: method(:effector) },
-          ' '  => { state: '2' },
-          '\t' => { state: '2' }
-        },
-        '3' => {
-          ':'  => { state: '4', effector: method(:target) },
-          ' '  => { state: '2' },
-          '\t' => { state: '2' }
-        },
-        '4' => {
-          ' '  => { state: '4' },
-          '\t' => { state: '4' }
-        }
-      })
-    end
-
-    %w{
-      source stimulus target output effector
-    }.each { |c| define_method(c) { @focus = c } }
-
     def prime
       interpreter.state = '0'
       @staged   = {}
@@ -90,5 +54,52 @@ module Moory
     end
 
     alias reset prime
+
+    def interpreter
+      @interpreter ||= Moory::Interpreter.new(config)
+    end
+
+    def config
+      {
+        graph: {
+          '0' => {
+            ':'  => { state: '1', effector: 'stimulus' },
+            ' '  => { state: '0' },
+            '\t' => { state: '0' }
+          },
+          '1' => { 
+            '/'  => { state: '2', effector: 'output' },
+            ':'  => { state: '4', effector: 'target' },
+            ' '  => { state: '1' },
+            '\t' => { state: '1' }
+          },
+          '2' => {
+            ':'  => { state: '4', effector: 'target' },
+            '/'  => { state: '3', effector: 'effector' },
+            ' '  => { state: '2' },
+            '\t' => { state: '2' }
+          },
+          '3' => {
+            ':'  => { state: '4', effector: method(:target) },
+            ' '  => { state: '2' },
+            '\t' => { state: '2' }
+          },
+          '4' => {
+            ' '  => { state: '4' },
+            '\t' => { state: '4' }
+          }
+        },
+        effectors: {
+            'stimulus' => method(:stimulus),
+            'output'   => method(:output),
+            'target'   => method(:target),
+            'effector' => method(:effector),
+        }
+      }
+    end
+
+    %w{
+      source stimulus target output effector
+    }.each { |c| define_method(c) { @focus = c } }
   end
 end
