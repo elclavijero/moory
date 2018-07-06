@@ -56,6 +56,7 @@ module Moory
         config.each_value.collect { |m| m.keys }.flatten
       )
     end
+    
     private
 
     def respond(msg)
