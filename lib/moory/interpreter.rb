@@ -67,7 +67,11 @@ module Moory
     def dispatch(msg)
       _effector, _output = effector(msg), output(msg)
 
-      _effector.call(_output) if _effector.respond_to?(:call)
+      if _effector.respond_to?(:call)
+        _effector.arity == 0 ?
+          _effector.call :
+          _effector.call(_output)
+      end
     end
 
     def effector(msg)

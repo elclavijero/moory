@@ -14,6 +14,37 @@ module Moory
   
     private
   
+    def scan(string)
+      string.chomp.each_char { |c| interpret(c) }
+      store if valid?
+      reset
+    end
+  
+    def interpret(char)
+      if @interpreter.understand?(char)
+        @interpreter.putm(char)
+      else
+        staged.fetch(@focus) { |k| staged[k] = '' } << char
+      end
+    end
+  
+    def store
+      y = config.fetch(staged['source']) { |k| config[k] = {} }
+      z = y.fetch(staged['stimulus'])    { |k| y[k] = {} }
+      z.merge!({ 
+        state:    staged['target'],
+        output:   staged['output'],
+        effector: staged['effector'] }
+        .compact 
+      )
+    end
+  
+    def valid?
+      staged['source']   && 
+      staged['stimulus'] && 
+      staged['target']
+    end
+
     def interpreter
       @interpreter ||= Moory::Interpreter.new({
         '0' => {
@@ -44,66 +75,17 @@ module Moory
         }
       })
     end
-  
+
+    %w{
+      source stimulus target output effector
+    }.each { |c| define_method(c) { @focus = c } }
+
     def prime
       interpreter.state = '0'
-      source
       @staged   = {}
+      source
     end
 
     alias reset prime
-  
-    def scan(string)
-      string.chomp.each_char do |c|
-        putc(c)
-      end
-      store if valid?
-      reset
-    end
-  
-    def putc(char)
-      if @interpreter.understand?(char)
-        @interpreter.putm(char)
-      else
-        staged.fetch(@focus) { |k| staged[k] = '' } << char
-      end
-    end
-  
-    def store
-      y = config.fetch(staged['source']) { |k| config[k] = {} }
-      z = y.fetch(staged['stimulus'])    { |k| y[k] = {} }
-      z.merge!({ 
-        state:    staged['target'],
-        output:   staged['output'],
-        effector: staged['effector'] }
-        .compact 
-      )
-    end
-  
-    def valid?
-      staged['source']   && 
-      staged['stimulus'] && 
-      staged['target']
-    end
-
-    def source(*args)
-      @focus = 'source'
-    end
-
-    def stimulus(*args)
-      @focus = 'stimulus'
-    end
-
-    def output(*args)
-      @focus = 'output'
-    end
-
-    def effector(*args)
-      @focus = 'effector'
-    end
-
-    def target(*args)
-      @focus = 'target'
-    end
   end
 end
