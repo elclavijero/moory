@@ -8,10 +8,10 @@ module Moory
     SKIP = proc {}
     WARN = proc { |msg| warn "Did not understand: #{msg}" }
 
-    def initialize(graph={}, &block)
+    def initialize(graph: {}, effectors: {}, default_proc: SKIP, &block)
       @graph        = graph
-      @effectors    = {}
-      @default_proc = SKIP
+      @effectors    = effectors
+      @default_proc = default_proc
 
       instance_eval &block if block_given?
     end

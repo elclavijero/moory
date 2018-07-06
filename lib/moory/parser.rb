@@ -48,7 +48,8 @@ module Moory
     end
 
     def interpreter
-      @interpreter ||= Moory::Interpreter.new({
+      @interpreter ||= Moory::Interpreter.new(
+        graph: {
         '0' => {
           ':'  => { state: '1', effector: method(:stimulus) },
           ' '  => { state: '0' },
