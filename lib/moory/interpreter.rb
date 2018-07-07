@@ -32,6 +32,11 @@ module Moory
     end
 
     def putm(msg)
+      warn """
+      #{self} received #{msg} before being assigned a state.
+      The message will be passed to the default_proc.
+      """ unless state
+      
       understand?(msg) ? respond(msg) : bad_call(msg)
     end
 
@@ -40,7 +45,7 @@ module Moory
     end
 
     def receptors
-      graph[state].keys.to_set
+      graph.fetch(state,{}).keys.to_set
     end
 
     def states
