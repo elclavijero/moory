@@ -31,10 +31,6 @@ module Moory
       @default_proc = obj.respond_to?(:call) ? obj : nil
     end
 
-    def putms(*msgs)
-      msgs.each { |msg| putm msg }
-    end
-
     def putm(msg)
       understand?(msg) ? respond(msg) : bad_call(msg)
     end
