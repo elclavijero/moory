@@ -4,8 +4,8 @@ module Moory
       Moory::Interpreter.new do |i|
         i.load(specification[:transitions])
       
-        define_singleton_method(:accepts?) do |string|
-          i.state = specification[:initial]
+        define_singleton_method(:accepts?) do |string, state=nil|
+          i.state = state ? state : specification[:initial]
           
           string.each_char { |c| putm(c) }
       
