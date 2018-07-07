@@ -1,6 +1,6 @@
 require 'moory'
 
-ab_star = Moory::Recogniser.create(
+ab_star = Moory::Acceptor.create(
   initial: '0',
   transitions: %q{
     0 : a : 1

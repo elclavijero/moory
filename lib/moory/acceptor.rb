@@ -1,6 +1,6 @@
 module Moory
-  module Recogniser
-    def Recogniser.create(specification)
+  module Acceptor
+    def Acceptor.create(specification)
       Moory::Interpreter.new do |i|
         i.load(specification[:transitions])
       
