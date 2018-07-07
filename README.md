@@ -1,8 +1,9 @@
 # Moory
+Welcome to the Moory gem!
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/moory`. To experiment with that code, run `bin/console` for an interactive prompt.
+You can use this gem to create various kinds of finite machines using a simple specification language.
 
-TODO: Delete this and the text above, and describe your gem
+Until I can get some tutorial material together, please take a look at the examples directory.  Therein you'll find a Finite Acceptor, a Decoder (Mealy machine), and something useless but (hopefully) illuminating.
 
 ## Installation
 
@@ -22,7 +23,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Please see the examples directory, for now.
 
 ## Development
 
