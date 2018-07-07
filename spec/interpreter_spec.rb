@@ -67,6 +67,20 @@ RSpec.describe Moory::Interpreter do
   end
 
   describe '#putm' do
+    context 'if the interpeter state is undefined' do
+      before do
+        the_interpreter.state = nil
+      end
+
+      it 'will write a warning to stderr' do
+        expect{
+          the_interpreter.putm('a_message')
+        }.to output(
+          /received a_message before being assigned a state/
+        ).to_stderr
+      end
+    end
+    
     describe 'transitions between states' do
       before(:each) do
         the_interpreter.graph = {
