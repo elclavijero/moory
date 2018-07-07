@@ -1,6 +1,6 @@
 module Moory
   module Decoder
-    def Mealy.create(config)
+    def Decoder.create(config)
       Interpreter.new do |i|
         i.load(config[:transitions])
       
