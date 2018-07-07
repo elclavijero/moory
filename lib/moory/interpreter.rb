@@ -18,7 +18,7 @@ module Moory
 
     def load(source)
       p = Moory::Parser.new
-      @graph = p.analyse(source)
+      @graph.merge!(p.analyse(source))
     end
 
     def fallback_effector=(obj)
