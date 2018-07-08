@@ -12,6 +12,8 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Use plain text to define finite machines.}
   spec.license       = "MIT"
 
+  spec.homepage = 'https://github.com/elclavijero/moory'
+  
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
   # if spec.respond_to?(:metadata)
