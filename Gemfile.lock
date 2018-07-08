@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    moory (0.3.1)
+    moory (0.3.2)
 
 GEM
   remote: https://rubygems.org/
