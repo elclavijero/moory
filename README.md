@@ -79,7 +79,7 @@ Well this one will be unceremoniously rejected with a runtime error (unless you 
 
 ### Before you go...
 
-There's more to Moory than its Acceptor.  I'll show you how to use its other features in another memo.
+There's more to Moory than its Acceptor.  I'll show you how to use its other features in the [wiki](https://github.com/elclavijero/moory/wiki).
 
 
 ## Installation
