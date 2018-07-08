@@ -3,7 +3,8 @@ Welcome to the Moory gem!
 
 You can use this gem to create various kinds of finite machines using a simple specification language.
 
-Below is an example of of how you might use the Acceptor, but until I can get some tutorial material together, please take a look at the examples directory.  Therein you'll find the Acceptor, a Decoder (Mealy machine), and something useless but (hopefully) illuminating.  Reading the spec files might also help.
+Below is an example of of how you might use the Acceptor, but until I can get some tutorial material together (which I'll put in the wiki), please take a look at the examples directory.  Therein you'll find the Acceptor, a Decoder (Mealy machine), and something useless but (hopefully) illuminating.  Reading the spec files might also help.
+
 
 ## Example: Creating an acceptor for ab*
 
