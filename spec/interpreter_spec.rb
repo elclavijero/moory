@@ -121,7 +121,7 @@ RSpec.describe Moory::Interpreter do
             the_interpreter.default_proc = Moory::Interpreter::SKIP
           end
 
-          it 'will write a message to stderr' do
+          it 'will not write a message to stderr' do
             expect(the_interpreter.understand?('unknown message')).not_to be
             
             expect{
