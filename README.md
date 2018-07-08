@@ -74,7 +74,7 @@ But what about including characters that don't belong to the machine's alphabet?
 ab_star.accepts?(string: "bbc", in_state: '1')
 ```
 
-Well this one will be uncermenoiously rejected with a runtime error (unless you are using version 0.1.0, where I forgot to handle bad input, sorry!)
+Well this one will be unceremoniously rejected with a runtime error (unless you are using version 0.1.0, where I forgot to handle bad input, sorry!)
 
 ### Before you go...
 
