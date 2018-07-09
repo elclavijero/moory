@@ -30,7 +30,7 @@ require 'moory'
 # We can go no further until we write down the rules of foo-bar-etiquette
 
 the_rules_of_foo_bar_etiquette = """
-  nothing_said : say_foo  : said_foo
+  start        : say_foo  : said_foo
     
   said_foo     : say_foo  : said_foo
   said_foo     : say_bar  : said_foo_bar

@@ -4,11 +4,16 @@ module Moory
 
     IGNORE = proc {}
 
-    def initialize(protege:, rules:, initial:'nothing_said', reaction_to_unknown: IGNORE)
-      @protege = protege
-      @rules   = rules
-      @intial  = initial
+    def initialize(protege:, rules:, initial:'start', reaction_to_unknown: IGNORE)
+      @protege  = protege
+      @rules    = rules
+      @initial  = initial
       @reaction_to_unknown = reaction_to_unknown
+      prepare
+    end
+
+    def restricted_messages
+      interpreter.alphabet
     end
 
     def reaction_to_unknown=(obj)
