@@ -3,21 +3,20 @@ Welcome to the Moory gem!
 
 You can use this gem to create various kinds of finite machines using a simple specification language.
 
-Below is an example of of how you might use the Acceptor, but until I can get some tutorial material together (which I'll put in the [wiki](https://github.com/elclavijero/moory/wiki)), please take a look at the examples directory.  Therein you'll find the Acceptor, a Decoder (Mealy machine), and something useless but (hopefully) illuminating.  Reading the spec files might also help.
+The [wiki](https://github.com/elclavijero/moory/wiki) is where to go if you are for looking for tutorial material.  Perhaps also look in the examples directory.  Therein you'll find use of the Acceptor, Decoder (Mealy machine), and something useless but (hopefully) illuminating.
+
+Until you do, here is an example showing how you might use the Acceptor.
 
 
 ## Example: Creating an acceptor for ab*
 
 ### Motivation
 
-Imagine that you want to create an incredible machine; one capable of determining whether a given character string belongs to the language described by the regular expression `ab*`.  Naturally, 
-you would not reach for a Regexp. That would be far too easy.  Instead you derive from
-the regular expression a Deterministic Finite Automaton (DFA) that does the job.  Here's what it 
-might look like:
+Imagine that you want to create an incredible machine. One capable of determining whether a given character string belongs to the language described by the regular expression `ab*`.  You're not going to use a Regexp. That would be far too easy.  Instead you derive from the regular expression a Deterministic Finite Automaton (DFA) that does the job.  Here's what it might look like:
 
 ![ab_star](images/ab_star.png)
 
-Of course, you've set up and solved a system of equations verifying that the design is correct.  But how do we implement this in Ruby?  We won't bother trying to apply the State design pattern, because it is a pain.  Instead, we will employ Moory which is one of the 200+ gems that exist to make creating finite machines easy.
+Of course, you've set up and solved a system of equations verifying that the design is correct.  Now how do you implement this in Ruby?  You won't bother trying to apply the State design pattern, because it is a pain.  Instead, you'll employ Moory, which is one of the 200+ gems that exist to make creating finite machines easy.
 
 ### Implementing the Acceptor
 
@@ -46,7 +45,7 @@ ab_star = Moory::Acceptor.create(
 )
 ```
 
-I'll explain the syntax of the transitions later, but, you have done enough to confidently type:
+I'll explain the syntax of the transitions later (see the [wiki](https://github.com/elclavijero/moory/wiki)) but you have done enough to confidently type:
 
 ```ruby
 ab_star.accepts?(string: "ab")
@@ -62,7 +61,7 @@ ab_star.accepts?(string: "aab")  # => false
 ab_star.accepts?(string: "aba")  # => false
 ```
 
-We aren't stuck with testing the strings against the initial state.  We can ask the machine to begin its match in any state:
+You aren't stuck with testing the strings against the initial state.  You can ask the machine to begin its match in any state:
 
 ```ruby
 ab_star.accepts?(string: "bbb", in_state: '1') 
@@ -75,7 +74,19 @@ But what about including characters that don't belong to the machine's alphabet?
 ab_star.accepts?(string: "bbc", in_state: '1')
 ```
 
-Well this one will be unceremoniously rejected with a runtime error (unless you are using version 0.1.0, where I forgot to handle bad input, sorry!)
+Well this one will be unceremoniously rejected with a runtime error (unless you are using version 0.1.0, where I forgot to handle bad input, sorry!).  Incidentally, if you want to change that behaviour, you should override the `default_proc`.
+```ruby
+ab_star.default_proc = proc { |msg| puts "I'm going to ignore that #{msg}" }
+```
+
+Now look
+```ruby
+ab_star.accepts?(string: "abcbb")
+# I'm going to ignore that c
+# => true
+```
+
+That's better.
 
 ### Before you go...
 
