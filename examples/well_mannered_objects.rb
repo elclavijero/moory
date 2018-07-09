@@ -5,13 +5,13 @@ uncouth = Object.new
 
 # and it can speak
 def uncouth.say_foo
-  pp 'foo'
+  p 'foo'
 end
 def uncouth.say_bar
-  pp 'bar'
+  p 'bar'
 end
 def uncouth.say_something_nice(name)
-  pp "Hello, #{name}. You look nice."
+  p "Hello, #{name}. You look nice."
 end
 
 # Do you see anything wrong here?

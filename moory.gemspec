@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Adam W. Grant"]
   spec.email         = ["adam_grnt@yahoo.co.uk"]
 
-  spec.summary       = %q{Use plain text to define finite machines.}
+  spec.summary       = %q{Use plain text to define finite machines (and even teach objects manners) using a simple plain-text specification language.}
   spec.license       = "MIT"
 
   spec.homepage = 'https://github.com/elclavijero/moory'

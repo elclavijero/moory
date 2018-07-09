@@ -1,14 +1,13 @@
 # Moory
 Welcome to the Moory gem!
 
-You can use this gem to create various kinds of finite machines using a simple specification language.
+You can use this gem to create various kinds of finite machines, and even teach objects manners using a simple plain-text specification language.
 
-The [wiki](https://github.com/elclavijero/moory/wiki) is where to go if you are for looking for tutorial material.  Perhaps also look in the examples directory.  Therein you'll find use of the Acceptor, Decoder (Mealy machine), and something useless but (hopefully) illuminating.
+The [wiki](https://github.com/elclavijero/moory/wiki) is where to go if you are for looking for tutorial material.  Perhaps also look in the examples directory.
 
-Until you do, here is an example showing how you might use the Acceptor.
+Until you do, here are two examples: the first is an acceptor, and the second is a **well mannered** object.
 
-
-## Example: Creating an acceptor for ab*
+## Example: An acceptor for ab*
 
 ### Motivation
 
@@ -88,9 +87,117 @@ ab_star.accepts?(string: "abcbb")
 
 That's better.
 
+## Example: A well mannered object
+If you haven't already, open up `irb` and create an uncouth object
+
+```ruby
+uncouth = Object.new
+```
+
+and teach it how to speak
+
+```ruby
+def uncouth.say_foo
+  p 'foo'
+end
+def uncouth.say_bar
+  p 'bar'
+end
+def uncouth.say_something_nice(name)
+  p "Hello, #{name}. You look nice."
+end
+```
+
+Do you see anything wrong here? Doesn't that object seem a little dangerous? Everybody knows that `"foo"` comes before `"bar"` in code examples.  That absurd object might ruin everything! Is there anything we can do to prevent it from doing the unthinkable?
+
+```ruby
+uncouth.say_bar
+uncouth.say_foo
+```
+
+Yes. We can filter calls to the uncouth object using Moory's WellMannered class.  We need it's methods to be called according to foo-bar-etiquette:
+
+![ab_star](images/foo_bar_etiquette.png)
+
+Let's describe those rules using a language Moory understands:
+
+```ruby
+the_rules_of_foo_bar_etiquette = """
+  start        : say_foo  : said_foo
+    
+  said_foo     : say_foo  : said_foo
+  said_foo     : say_bar  : said_foo_bar
+
+  said_foo_bar : say_foo  : said_foo_bar
+  said_foo_bar : say_bar  : said_foo_bar
+"""
+```
+
+Let's make a postive change, and hereon refer to the uncouth object as the `well_mannered_object`.
+It will be our `protege`:
+
+```ruby
+require 'moory'
+
+well_mannered_object = Moory::WellMannered.new(
+  protege: uncouth,
+  rules:   the_rules_of_foo_bar_etiquette
+)
+```
+Now let's have a conversation with our protege.
+```ruby
+well_mannered_object.say_something_nice('Adam')
+# "Hello, Adam. You look nice."
+```
+That is nice.
+```ruby
+well_mannered_object.say_bar
+```
+So far so good. Our well mannered object is proving to be polite.  If someone asks it to depart from protocol, it will just quietly refuse.  But what if that isn't enough? What should it do if someone asks it to do something really bad?  The trouble is that well mannered objects are so well-behaved, they won't do depart from the protocol unless we say its OK. Let's do that.
+
+```ruby
+well_mannered_object.response_to_rule_breaking = proc { |msg|
+  p "You shouldn't ask me to #{msg}! I'm telling!"
+}
+```
+
+Now when we ask it to do something it out of turn
+```ruby
+well_mannered_object.say_bar
+# "You shouldn't ask me to say_bar! I'm telling!"
+```
+it will tell on you.  What a nice object!  Now don't be such a telltale.
+```ruby
+well_mannered_object.response_to_rule_breaking = nil
+```
+Let's continue
+```ruby
+well_mannered_object.say_bar
+```
+Good. You didn't complain.
+```ruby
+well_mannered_object.say_foo
+# "foo"
+```
+Promising.  You haven't yet spoken out of turn.
+```ruby
+well_mannered_object.say_foo
+# "foo"
+```
+A perfectly acceptable reptition.
+```ruby
+well_mannered_object.say_bar
+# "bar"
+```
+Wonderful!
+```ruby
+well_mannered_object.say_something_nice('Adam')
+```
+Yes. Thank you.
+
 ### Before you go...
 
-There's more to Moory than its Acceptor.  I'll show you how to use its other features in the [wiki](https://github.com/elclavijero/moory/wiki).
+There's more to Moory than its Acceptors and WellMannered objects.  I'll show you how to use its other features in the [wiki](https://github.com/elclavijero/moory/wiki).
 
 
 ## Installation
