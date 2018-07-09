@@ -1,16 +1,25 @@
 module Moory
   class WellMannered
-    def initialize(protege:, convention:)
-      @protege    = protege
-      @convention = convention
-      prepare(convention)
+    attr_reader :reaction_to_unknown
+
+    IGNORE = proc {}
+
+    def initialize(protege:, rules:, initial:'nothing_said', reaction_to_unknown: IGNORE)
+      @protege = protege
+      @rules   = rules
+      @intial  = initial
+      @reaction_to_unknown = reaction_to_unknown
+    end
+
+    def reaction_to_unknown=(obj)
+      @reaction_to_unknown = obj.respond_to?(:call) ? obj : IGNORE
     end
   
     private
   
-    def prepare(rules:, initial:)
-      interpreter.load(rules)
-      interpreter.state = initial
+    def prepare
+      interpreter.load(@rules)
+      interpreter.state = @initial
     end
   
     def interpreter
@@ -18,7 +27,9 @@ module Moory
     end
   
     def method_missing(*args)
-      protected?(*args) ? filter_first(*args) : forward(*args)
+      protected?(*args) ? 
+        filter_first(*args) : 
+        forward(*args)
     end
   
     def protected?(*args)
@@ -26,11 +37,15 @@ module Moory
     end
   
     def filter_first(*args)
-      interpreter.putm(args.first.to_s) ? forward(*args) : nil
+      interpreter.putm(args.first.to_s) ? 
+        forward(*args) : 
+        reaction_to_unknown.call(msg)
     end
   
     def forward(*args)
-      @protege.send(*args)
+      @protege.respond_to?(*args) ?
+        @protege.send(*args) :
+        reaction_to_unknown.call(*args)
     end
   end
 end
