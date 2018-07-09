@@ -1,14 +1,14 @@
 module Moory
   class WellMannered
-    attr_reader :reaction_to_unknown
+    attr_reader :response_to_rule_breaking
 
     IGNORE = proc {}
 
-    def initialize(protege:, rules:, initial:'start', reaction_to_unknown: IGNORE)
+    def initialize(protege:, rules:, initial:'start', response_to_rule_breaking: IGNORE)
       @protege  = protege
       @rules    = rules
       @initial  = initial
-      @reaction_to_unknown = reaction_to_unknown
+      @response_to_rule_breaking = response_to_rule_breaking
       prepare
     end
 
@@ -16,8 +16,8 @@ module Moory
       interpreter.alphabet
     end
 
-    def reaction_to_unknown=(obj)
-      @reaction_to_unknown = obj.respond_to?(:call) ? obj : IGNORE
+    def response_to_rule_breaking=(obj)
+      @response_to_rule_breaking = obj.respond_to?(:call) ? obj : IGNORE
     end
   
     private
@@ -44,13 +44,11 @@ module Moory
     def filter_first(*args)
       interpreter.putm(args.first.to_s) ? 
         forward(*args) : 
-        reaction_to_unknown.call(msg)
+        response_to_rule_breaking.call(*args)
     end
   
     def forward(*args)
-      @protege.respond_to?(*args) ?
-        @protege.send(*args) :
-        reaction_to_unknown.call(*args)
+      @protege.send(*args)
     end
   end
 end

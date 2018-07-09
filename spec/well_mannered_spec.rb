@@ -59,4 +59,24 @@ RSpec.describe Moory::WellMannered do
       expect(uncouth).to have_received(:say_hello)
     end
   end
+
+  describe 'defining a response to rule breaking' do
+    let(:the_response) do
+      spy("some callable object")
+    end
+
+    context 'if the reaction has been assigned' do
+      before do
+        well_mannered_object.response_to_rule_breaking = the_response
+      end
+
+      context 'sending a message that breaks the rules' do
+        it 'will call the response_to_rule_breaking' do
+          well_mannered_object.say_bar
+
+          expect(the_response).to have_received(:call).with(:say_bar)
+        end
+      end
+    end
+  end
 end

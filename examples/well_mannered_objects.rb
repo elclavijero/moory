@@ -52,6 +52,24 @@ well_mannered_object.say_something_nice('Adam')
 # That is nice.
 well_mannered_object.say_bar    
 # Good.  I'm glad you didn't fall for that
+
+# So far so good. Our well mannered object is proving to be polite.  If someone asks it 
+# to depart from protocol, it will just quietly refuse.  But what if that isn't enough?
+# What should it do if someone asks it to do something really bad?  The trouble is,
+# well-mannered objects are so well-behaved, they won't do anything unless we say its OK.
+# Let's do that.
+
+well_mannered_object.response_to_rule_breaking = proc { |msg|
+  pp "You shouldn't ask me to #{msg}! I'm telling!"
+}
+
+# Now when we ask it to do something it out of turn
+well_mannered_object.say_bar
+# it will tell on you.  What a nice object!  Now don't be such a telltale.
+well_mannered_object.response_to_rule_breaking = nil
+# Let's continue
+well_mannered_object.say_bar
+# Good. You didn't complain.
 well_mannered_object.say_foo    
 # Promising.  You haven't yet spoken out of turn.
 well_mannered_object.say_foo
@@ -60,22 +78,4 @@ well_mannered_object.say_bar
 # Wonderful!
 well_mannered_object.say_something_nice('Adam')
 # Yes. Thank you.
-
-# Clearly, our well mannered object is polite and highly cooperative.  If someone asks it 
-# to depart from protocol, it will just quietly refuse.  But what if that isn't enough?
-# What should it do if somone asks it to do something really bad?  The trouble is,
-# well-mannered objects are so well-behaved, they won't do anything unless we say its OK.
-# Let's do that.
-
-well_mannered_object.reaction_to_unknown = proc { |msg|
-  pp "You can't tell me to #{msg}! I'm telling!"
-}
-
-# Now when we ask it to do something it shouldn't
-well_mannered_object.do_something_bad('now')
-
-# it will tell on you.
-
-# What a nice object!  Now don't be such a tell-tale
-well_mannered_object.reaction_to_unknown = nil
 
