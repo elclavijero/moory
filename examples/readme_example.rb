@@ -20,14 +20,14 @@ ab_star.accepts?(string: "abbb") # => true
 ab_star.accepts?(string: "aab")  # => false
 ab_star.accepts?(string: "aba")  # => false
 
-# Check a string against another strating state
+# Check a string against another starting state
 ab_star.accepts?(string: "bbb", in_state: '1')
 # => true
 
 # Uncomment the next line, and you'll see a runtime error
 # ab_star.accepts?(string: "bbc", in_state: '1')
 
-# Assign a default_proc, whcih is called when the Acceptor 
+# Assign a default_proc, which is called when the Acceptor 
 # encounters a character not in its alphabet e.g. 'c'
 ab_star.default_proc = proc { |msg| puts "I'm going to ignore that #{msg}" }
 
