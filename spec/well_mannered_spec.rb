@@ -36,11 +36,27 @@ RSpec.describe Moory::WellMannered do
 
   describe 'sending messages corresponding to transitions in the rules' do
     context 'when sent a conformant message' do
-      it 'will allow the message to pass through to the uncouth object' do
+      it 'will allow the message to pass through to the protege' do
         well_mannered_object.say_foo
 
         expect(uncouth).to have_received(:say_foo)
       end
+    end
+
+    context 'when sent a non-conformant message' do
+      it 'will not pass the message to the protege' do
+        well_mannered_object.say_bar
+
+        expect(uncouth).not_to have_received(:say_bar)
+      end
+    end
+  end
+
+  describe 'sending a message that lies outside the scope of the rules' do
+    it 'will pass unrestricted messages to the protege' do
+      well_mannered_object.say_hello
+
+      expect(uncouth).to have_received(:say_hello)
     end
   end
 end
