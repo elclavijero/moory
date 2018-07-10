@@ -135,6 +135,7 @@ RSpec.describe Moory::Interpreter do
     describe 'effector invocation' do
       let(:an_effector) do
         spy("an effector")
+        # NOTE: Spies are variadic (they have arity -1)
       end
 
       let(:the_fallback_effector) do
@@ -226,10 +227,12 @@ RSpec.describe Moory::Interpreter do
         end
 
         context 'but the transition is associated with an effector' do
-          it 'will call that effector with nil' do
-            the_interpreter.putm('stimulus')
-
-            expect(an_effector).to have_received(:call).with(nil)
+          context "and that effector's arity is -1" do
+            it 'will call that effector with nil' do
+              the_interpreter.putm('stimulus')
+  
+              expect(an_effector).to have_received(:call).with(nil)
+            end
           end
         end
 
@@ -243,10 +246,24 @@ RSpec.describe Moory::Interpreter do
               the_interpreter.fallback_effector = the_fallback_effector
             end
 
-            it 'will call the fallback effector' do
+            context 'and fallback_always is true (which it is by default)' do
+              it 'will call the fallback effector' do
+                the_interpreter.putm('stimulus')
+  
+                expect(the_fallback_effector).to have_received(:call)
+              end
+            end
+          end
+
+          context 'but the fallback effector has ben defined with always=false' do
+            before do
+              the_interpreter.fallback_effector = the_fallback_effector, true
+            end
+
+            it 'will not call the fallback effector' do
               the_interpreter.putm('stimulus')
 
-              expect(the_fallback_effector).to have_received(:call)
+              expect(the_fallback_effector).not_to have_received(:call)
             end
           end
         end

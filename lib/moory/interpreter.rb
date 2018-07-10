@@ -8,10 +8,11 @@ module Moory
     SKIP = proc {}
     WARN = proc { |msg| warn "Did not understand: #{msg}" }
 
-    def initialize(graph: {}, effectors: {}, default_proc: SKIP, &block)
+    def initialize(graph: {}, effectors: {}, default_proc: SKIP, fallback_always: true, &block)
       @graph        = graph
       @effectors    = effectors
       @default_proc = default_proc
+      @fallback_always = fallback_always
 
       instance_eval &block if block_given?
     end
@@ -21,11 +22,14 @@ module Moory
       @graph.merge!(p.analyse(source))
     end
 
-    def fallback_effector=(obj, fallback_always=true)
+    def fallback_effector=(obj)
       candidate = obj.kind_of?(String) ? effectors[obj] : obj
       
       @fallback_effector = candidate.respond_to?(:call) ? candidate : nil
-      @fallback_always = fallback_always
+    end
+
+    def fallback_always=(bool)
+      @fallback_always = bool
     end
 
     def default_proc=(obj)
