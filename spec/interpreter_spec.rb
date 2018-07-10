@@ -253,6 +253,18 @@ RSpec.describe Moory::Interpreter do
                 expect(the_fallback_effector).to have_received(:call)
               end
             end
+
+            context 'and fallback_always is false' do
+              before do
+                the_interpreter.fallback_always = false
+              end
+
+              it 'will not call the fallback effector' do
+                the_interpreter.putm('stimulus')
+  
+                expect(the_fallback_effector).not_to have_received(:call)
+              end
+            end
           end
 
           context 'but the fallback effector has ben defined with always=false' do
