@@ -21,10 +21,11 @@ module Moory
       @graph.merge!(p.analyse(source))
     end
 
-    def fallback_effector=(obj)
+    def fallback_effector=(obj, fallback_always=true)
       candidate = obj.kind_of?(String) ? effectors[obj] : obj
       
       @fallback_effector = candidate.respond_to?(:call) ? candidate : nil
+      @fallback_always = fallback_always
     end
 
     def default_proc=(obj)
@@ -85,8 +86,12 @@ module Moory
       if candidate.kind_of?(String)
         effectors[candidate]
       else
-        candidate || fallback_effector
+        candidate || (fallback_effector if fallback_appropriate_for?(msg))
       end
+    end
+
+    def fallback_appropriate_for?(msg)
+      @fallback_always ? @fallback_always : output(msg)
     end
 
     def output(msg)
