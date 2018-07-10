@@ -266,18 +266,6 @@ RSpec.describe Moory::Interpreter do
               end
             end
           end
-
-          context 'but the fallback effector has ben defined with always=false' do
-            before do
-              the_interpreter.fallback_effector = the_fallback_effector, true
-            end
-
-            it 'will not call the fallback effector' do
-              the_interpreter.putm('stimulus')
-
-              expect(the_fallback_effector).not_to have_received(:call)
-            end
-          end
         end
       end
     end
