@@ -6,7 +6,6 @@ module Moory
   
     def initialize
       @graph   = {}
-      @map     = {}
       prime_interpreter
     end
   
