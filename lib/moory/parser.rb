@@ -49,7 +49,10 @@ module Moory
     end
 
     def poise
-      Moory::Pair.new(left: staged['source'], right: staged['stimulus'])
+      Moory::Pair.new(
+        left: staged['source'],
+        right: staged['stimulus']
+      )
     end
 
     def response
