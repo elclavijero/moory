@@ -8,13 +8,13 @@ module Moory
     def initialize
       @graph   = {}
       @map     = {}
-      prime
+      prime_interpreter
     end
   
     def analyse(input)
       input.each_line do |line| 
         scan(line); store if valid?
-        reset
+        reset_interpreter
       end
 
       return graph
@@ -23,15 +23,23 @@ module Moory
     private
   
     def scan(string)
-      string.chomp.each_char { |c| interpret(c) }
+      string.chomp.each_char { |c| route(c) }
     end
   
+    def route(char)
+      special?(char) ? interpret(char) : write_to_focus(char)
+    end
+
+    def special?(char)
+      interpreter.understand?(char)
+    end
+
+    def write_to_focus(char)
+      staged.fetch(@focus) { |k| staged[k] = '' } << char
+    end
+
     def interpret(char)
-      if @interpreter.understand?(char)
-        @interpreter.putm(char)
-      else
-        staged.fetch(@focus) { |k| staged[k] = '' } << char
-      end
+      interpreter.putm(char)
     end
   
     def store
@@ -60,13 +68,13 @@ module Moory
       staged['target']
     end
 
-    def prime
+    def prime_interpreter
       interpreter.state = '0'
       @staged   = {}
       source
     end
 
-    alias reset prime
+    alias reset_interpreter prime_interpreter
 
     def interpreter
       @interpreter ||= Moory::Interpreter.new(config)
