@@ -2,7 +2,7 @@ require 'moory/pair'
 
 module Moory
   class Parser
-    attr_reader :map, :graph, :staged
+    attr_reader :graph, :staged
   
     def initialize
       @graph   = {}
@@ -49,16 +49,7 @@ module Moory
         effector: staged['effector']
       }.compact
 
-      map.store(pair, response)
-
-      y = graph.fetch(staged['source']) { |k| graph[k] = {} }
-      z = y.fetch(staged['stimulus'])    { |k| y[k] = {} }
-      z.merge!({ 
-        state:    staged['target'],
-        output:   staged['output'],
-        effector: staged['effector'] }
-        .compact 
-      )
+      graph.merge!(pair.shunt(response))
     end
   
     def valid?
