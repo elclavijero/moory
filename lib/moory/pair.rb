@@ -3,5 +3,9 @@ module Moory
     def valid?
       left && right
     end
+
+    def shunt(value)
+      { left => { right => value } }
+    end
   end
 end

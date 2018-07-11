@@ -1,5 +1,5 @@
 RSpec.describe Moory::Pair do
-  describe 'eql?' do
+  describe '#eql?' do
     let(:pair) do
       Moory::Pair.new(left: '0', right: 'a')
     end
@@ -32,6 +32,28 @@ RSpec.describe Moory::Pair do
       
       expect(pair_falsy_left).not_to be_valid
       expect(pair_falsy_right).not_to be_valid
+    end
+  end
+
+  describe '#shunt' do
+    context 'for the pair (left: "x", right: "y")' do
+      let(:pair) do
+        Moory::Pair.new(left: 'x', right: 'y')
+      end
+
+      let(:a_value) do
+        spy("a_value")
+      end
+
+      context 'when given a_value' do
+        it 'will return { "x" => { "y" => a_value } }' do
+          expect(
+            pair.shunt(a_value)
+          ).to eq(
+            { "x" => { "y" => a_value } }
+          )
+        end
+      end
     end
   end
 end
