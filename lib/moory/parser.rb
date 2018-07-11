@@ -1,3 +1,5 @@
+require 'moory/arrow'
+
 module Moory
   class Parser
     attr_reader :graph, :staged
