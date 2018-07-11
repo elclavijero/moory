@@ -42,14 +42,23 @@ module Moory
     end
   
     def store
-      pair = Moory::Pair.new(left: staged['source'], right: staged['stimulus'])
-      response = { 
+      graph.merge!(transition)
+    end
+
+    def transition
+      poise.shunt(response)
+    end
+
+    def poise
+      Moory::Pair.new(left: staged['source'], right: staged['stimulus'])
+    end
+
+    def response
+      { 
         state:    staged['target'],
         output:   staged['output'],
         effector: staged['effector']
       }.compact
-
-      graph.merge!(pair.shunt(response))
     end
   
     def valid?
