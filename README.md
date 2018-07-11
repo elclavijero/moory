@@ -184,7 +184,7 @@ Promising.  You haven't yet spoken out of turn.
 well_mannered_object.say_foo
 # "foo"
 ```
-A perfectly acceptable reptition.
+A perfectly acceptable repetition.
 ```ruby
 well_mannered_object.say_bar
 # "bar"
@@ -192,6 +192,7 @@ well_mannered_object.say_bar
 Wonderful!
 ```ruby
 well_mannered_object.say_something_nice('Adam')
+# "Hello, Adam. You look nice."
 ```
 Yes. Thank you.
 
