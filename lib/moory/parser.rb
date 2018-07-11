@@ -3,10 +3,11 @@ require 'moory/pair'
 
 module Moory
   class Parser
-    attr_reader :graph, :staged
+    attr_reader :map, :graph, :staged
   
     def initialize
       @graph   = {}
+      @map     = {}
       prime
     end
   
@@ -34,6 +35,15 @@ module Moory
     end
   
     def store
+      pair = Moory::Pair.new(left: staged['source'], right: staged['stimulus'])
+      response = { 
+        state:    staged['target'],
+        output:   staged['output'],
+        effector: staged['effector']
+      }.compact
+
+      map.store(pair, response)
+
       y = graph.fetch(staged['source']) { |k| graph[k] = {} }
       z = y.fetch(staged['stimulus'])    { |k| y[k] = {} }
       z.merge!({ 
