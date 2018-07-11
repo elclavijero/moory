@@ -1,4 +1,3 @@
-require 'moory/arrow'
 require 'moory/pair'
 
 module Moory

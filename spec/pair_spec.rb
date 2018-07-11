@@ -1,41 +1,37 @@
-RSpec.describe Moory::Arrow do
+RSpec.describe Moory::Pair do
   describe 'eql?' do
-    let(:arw) do
-      Moory::Arrow.new(source: '0', label: 'a', target: {})
+    let(:pair) do
+      Moory::Pair.new(left: '0', right: 'a')
     end
 
-    it 'will return true if other agrees on source, label, and target' do
-      other = Moory::Arrow.new(source: '0', label: 'a', target: {})
+    it 'will return true if other agrees on left, right' do
+      other = Moory::Pair.new(left: '0', right: 'a')
 
-      expect(arw).to eql(other)
+      expect(pair).to eql(other)
     end
 
-    it 'will return false if other disagrees on source, label, or target' do
-      a_different_arw = Moory::Arrow.new(source: '1', label: 'a', target: {})
-      another_different_arw = Moory::Arrow.new(source: '0', label: 'b', target: {})
-      yet_another_different_arw = Moory::Arrow.new(source: '0', label: 'a', target: [])
+    it 'will return false if other disagrees on left, right, or ' do
+      a_different_pair = Moory::Pair.new(left: '1', right: 'a')
+      another_different_pair = Moory::Pair.new(left: '0', right: 'b')
 
-      expect(arw).not_to eql(a_different_arw)
-      expect(arw).not_to eql(another_different_arw)
-      expect(arw).not_to eql(yet_another_different_arw)
+      expect(pair).not_to eql(a_different_pair)
+      expect(pair).not_to eql(another_different_pair)
     end
   end
 
   describe '#valid?' do
-    it 'will be true when source, label, and target are truthy' do
-      arw = Moory::Arrow.new(source: '0', label: 'a', target: {})
+    it 'will be true when left, right, and  are truthy' do
+      pair = Moory::Pair.new(left: '', right: '')
 
-      expect(arw).to be_valid
+      expect(pair).to be_valid
     end
 
-    it 'will be false if source, label, or target is falsy' do
-      arw_falsy_src = Moory::Arrow.new(source: nil, label: 'a', target: {})
-      arw_falsy_label = Moory::Arrow.new(source: '0', label: nil, target: {})
-      arw_falsy_target = Moory::Arrow.new(source: '0', label: 'a', target: nil)
+    it 'will be false if left, right, or  is falsy' do
+      pair_falsy_left  = Moory::Pair.new(left: nil, right: 'a')
+      pair_falsy_right = Moory::Pair.new(left: '0', right: nil)
       
-      expect(arw_falsy_src).not_to be_valid
-      expect(arw_falsy_label).not_to be_valid
-      expect(arw_falsy_target).not_to be_valid
+      expect(pair_falsy_left).not_to be_valid
+      expect(pair_falsy_right).not_to be_valid
     end
   end
 end
