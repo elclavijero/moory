@@ -10,8 +10,16 @@ RSpec.describe Moory::CollectionRefinement do
     %w{ a b c }
   end
 
+  let(:s) do
+    %w{ foo bar baz }
+  end
+
   let(:d_to_r) do
     d.map_to(r)
+  end
+
+  let(:r_to_s) do
+    r.map_to(s)
   end
 
   describe '#domain' do
@@ -65,14 +73,40 @@ RSpec.describe Moory::CollectionRefinement do
       end
     end
 
-    context 'when other is the identity' do
-      it 'returns a copy of self' do
-        pp r.identity_map
-        expect(
-          d_to_r.then( r.identity_map )
-        ).to eq(
-          d_to_r
-        )
+    context 'when the other is inhabited' do
+      context 'when other is the identity' do
+        it 'returns a copy of self' do
+          pp r.identity_map
+          expect(
+            d_to_r.then( r.identity_map )
+          ).to eq(
+            d_to_r
+          )
+        end
+      end
+
+      context 'when the other differs from the identity' do
+        context "the other is not composable" do
+          it 'will return {}' do
+            expect(
+              d_to_r.then( { 'd' => '4', 'e' => '5', 'g' => '6' } )
+            ).to eq(
+              {}
+            )
+          end
+
+          context 'the other is composable' do
+            it 'will return their composition' do
+              expect(
+                d_to_r.then(r_to_s)
+              ).to eq({
+                "x"=>"foo",
+                "y"=>"bar",
+                "z"=>"baz"}
+              )
+            end
+          end
+        end
       end
     end
   end

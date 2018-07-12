@@ -24,7 +24,7 @@ module Moory
 
         def then(other)
           return {} if other.empty?
-          transform_values { |v| other[v] }
+          transform_values { |v| other[v] }.compact
         end
       end
     end
