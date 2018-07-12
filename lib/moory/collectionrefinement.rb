@@ -23,7 +23,8 @@ module Moory
         end
 
         def then(other)
-          {} if other.empty?
+          return {} if other.empty?
+          transform_values { |v| other[v] }
         end
       end
     end

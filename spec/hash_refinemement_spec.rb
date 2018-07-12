@@ -55,12 +55,25 @@ RSpec.describe Moory::CollectionRefinement do
   end
 
   describe '#then' do
-    it '{} is the right-zero of #then' do
-      expect(
-        d_to_r.then( {} )
-      ).to eq( 
-        {} 
-      )
+    context 'when other is {}' do
+      it 'it returns {}' do
+        expect(
+          d_to_r.then( {} )
+        ).to eq( 
+          {} 
+        )
+      end
+    end
+
+    context 'when other is the identity' do
+      it 'returns a copy of self' do
+        pp r.identity_map
+        expect(
+          d_to_r.then( r.identity_map )
+        ).to eq(
+          d_to_r
+        )
+      end
     end
   end
 end
