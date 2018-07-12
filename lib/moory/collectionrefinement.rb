@@ -14,6 +14,7 @@ module Moory
 
     module HashRefinement
       refine Hash do
+        using ArrayRefinement
         def domain
           keys.to_set
         end
@@ -29,6 +30,10 @@ module Moory
         def then(other)
           return {} if other.empty?
           transform_values { |v| other[v] }.compact
+        end
+
+        def project(*args)
+          args.identity_map.then(self)
         end
       end
     end

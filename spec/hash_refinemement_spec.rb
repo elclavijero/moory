@@ -110,12 +110,29 @@ RSpec.describe Moory::CollectionRefinement do
               ).to eq({
                 "x"=>"foo",
                 "y"=>"bar",
-                "z"=>"baz"}
-              )
+                "z"=>"baz"
+              })
             end
           end
         end
       end
+    end
+  end
+
+  describe '#project' do
+    it 'will the projection of the map over the given arguments' do
+      expect(
+        d_to_r.project('x', 'z')
+      ).to eq({
+        "x"=>"a",
+        "z"=>"c"
+      })
+
+      expect(
+        d_to_r.project('not', 'in', 'domain')
+      ).to eq(
+        {}
+      )
     end
   end
 end
