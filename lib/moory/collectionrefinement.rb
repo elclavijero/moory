@@ -22,6 +22,10 @@ module Moory
           values.to_set
         end
 
+        def composable?(other)
+          !(range & other.domain).empty?
+        end
+
         def then(other)
           return {} if other.empty?
           transform_values { |v| other[v] }.compact

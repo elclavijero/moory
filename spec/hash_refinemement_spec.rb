@@ -62,6 +62,14 @@ RSpec.describe Moory::CollectionRefinement do
     end
   end
 
+  describe '#composable?' do
+    context 'when the range is a subset of the domain of other' do
+      it 'will return true' do
+        expect(d_to_r.composable?(r_to_s)).to be
+      end
+    end
+  end
+
   describe '#then' do
     context 'when other is {}' do
       it 'it returns {}' do
