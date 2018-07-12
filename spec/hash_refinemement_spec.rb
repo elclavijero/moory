@@ -1,4 +1,5 @@
 RSpec.describe Moory::CollectionRefinement do
+  using Moory::CollectionRefinement::ArrayRefinement
   using Moory::CollectionRefinement::HashRefinement
   
   let(:d) do
@@ -10,7 +11,7 @@ RSpec.describe Moory::CollectionRefinement do
   end
 
   let(:d_to_r) do
-    Hash[*d.zip(r).flatten]
+    d.map_to(r)
   end
 
   describe '#then' do
