@@ -11,5 +11,19 @@ RSpec.describe Moory::CollectionRefinement do
         )
       end
     end
+
+    context 'for an inhabited array' do
+      it 'will return the identity map over that array' do
+        expect(
+          %w{ x y z }.lift
+        ).to eq(
+          {
+            'x' => 'x',
+            'y' => 'y',
+            'z' => 'z'
+          }
+        )
+      end
+    end
   end
 end

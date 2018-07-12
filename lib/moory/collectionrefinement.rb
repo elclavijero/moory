@@ -2,8 +2,12 @@ module Moory
   module CollectionRefinement
     module ArrayRefinement
       refine Array do
+        def map_to(other)
+          Hash[*self.zip(other).flatten]
+        end
+
         def lift
-          {} if empty?
+          map_to(self)
         end
       end
     end
