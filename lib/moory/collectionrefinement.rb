@@ -3,7 +3,7 @@ module Moory
     module ArrayRefinement
       refine Array do
         def map_to(other)
-          Hash[*self.zip(other).flatten]
+          Hash[*self.zip(other).flatten].compact
         end
 
         def lift
@@ -14,6 +14,14 @@ module Moory
 
     module HashRefinement
       refine Hash do
+        def domain
+          keys.to_set
+        end
+
+        def range
+          values.to_set
+        end
+
         def then(other)
           {} if other.empty?
         end
