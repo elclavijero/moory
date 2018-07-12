@@ -1,5 +1,5 @@
 require "moory/version"
-require "moory/hashrefinement"
+require "moory/collectionrefinement"
 require "moory/interpreter"
 require "moory/parser"
 require "moory/acceptor"
