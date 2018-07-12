@@ -6,7 +6,7 @@ module Moory
           Hash[*self.zip(other).flatten].compact
         end
 
-        def lift
+        def identity_map
           map_to(self)
         end
       end

@@ -128,11 +128,11 @@ RSpec.describe Moory::CollectionRefinement do
     end
   end
 
-  describe '#lift' do
+  describe '#identity_map' do
     context 'for an empty array' do
       it 'will return {}' do
         expect(
-          [].lift
+          [].identity_map
         ).to eq(
           {}
         )
@@ -142,7 +142,7 @@ RSpec.describe Moory::CollectionRefinement do
     context 'for an inhabited array' do
       it 'will return the identity map over that array' do
         expect(
-          %w{ x y z }.lift
+          %w{ x y z }.identity_map
         ).to eq(
           {
             'x' => 'x',
