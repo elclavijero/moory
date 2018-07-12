@@ -32,7 +32,15 @@ RSpec.describe Moory::CollectionRefinement do
             the_array.map_to(the_other)
           end
 
-          it 'will have a domain equal to the_array' do
+          it 'will be an inhabited map' do
+            expect(returned).to eq({
+              "x"=>"a",
+              "y"=>"b",
+              "z"=>"c",
+            })
+          end
+
+          it 'will have a domain *equal* to {*the_array}' do
             expect(
               returned.domain
             ).to eq(
@@ -40,20 +48,12 @@ RSpec.describe Moory::CollectionRefinement do
             )
           end
 
-          it 'will have a range equal to the_other' do
+          it 'will have a range *equal* to {*the_array}' do
             expect(
               returned.range
             ).to eq(
               the_other.to_set
             )
-          end
-
-          it 'will return an inhabited map' do
-            expect(returned).to eq({
-              "x"=>"a", 
-              "y"=>"b", 
-              "z"=>"c"
-            })
           end
         end
 
@@ -69,10 +69,59 @@ RSpec.describe Moory::CollectionRefinement do
             the_array.map_to(the_other)
           end
 
-          it 'will have a domain equal to a subset of {*the_array}' do
+          it 'will be an inhabited map' do
+            expect(returned).to eq({
+              "x"=>"a",
+              "y"=>"b",
+            })
+          end
+
+          it 'will have a domain that is a *proper* subset of {*the_array}' do
             expect(
               returned.domain
             ).to be < the_array.to_set
+          end
+
+          it 'will have a range that is *equal* to {*the_other}' do
+            expect(
+              returned.range
+            ).to eq(
+              the_other.to_set
+            )
+          end
+        end
+      end
+
+      context 'and the other is larger' do
+        let(:the_other) do
+          %w{ a b c d}
+        end
+
+        describe 'the returned hash' do
+          let(:returned) do
+            the_array.map_to(the_other)
+          end
+
+          it 'will be an inhabited map' do
+            expect(returned).to eq({
+              "x"=>"a",
+              "y"=>"b",
+              "z"=>"c",
+            })
+          end
+
+          it 'will have a domain *equal* to {*the_array}' do
+            expect(
+              returned.domain
+            ).to eq(
+              the_array.to_set
+            ) 
+          end
+
+          it 'will have a range that is a *proper* subset of {*the_other}' do
+            expect(
+              returned.range
+            ).to be < the_other.to_set
           end
         end
       end
