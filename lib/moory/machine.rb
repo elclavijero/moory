@@ -27,12 +27,12 @@ module Moory
     private
 
     def honour(response)
-      perform_for(response) if repertoire
+      perform(response) if repertoire
 
       move_according_to(response)
     end
 
-    def perform_for(response)
+    def perform(response)
       perform_always(response[:output])
       perform_special(response)
     end
