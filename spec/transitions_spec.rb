@@ -100,6 +100,20 @@ RSpec.describe Moory::Transition::Storage do
     ]
   end
 
+  describe '#states' do
+    before do
+      ab_star_rules.each { |r| transitions.store(r) }
+    end
+
+    it 'will enumerate the states' do
+      expect(
+        transitions.states
+      ).to eq(
+        Set['0', '1', '2']
+      )
+    end
+  end
+
   describe '#alphabet' do
     before do
       ab_star_rules.each { |r| transitions.store(r) }

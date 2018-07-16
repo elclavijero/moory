@@ -15,6 +15,12 @@ module Moory
         storage.dig(origin, stimulus)
       end
 
+      def states
+        storage
+          .keys
+          .to_set
+      end
+
       def alphabet(restrict:nil)
         storage
           .select  { |k| restrict ? k == restrict : true }
