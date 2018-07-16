@@ -34,7 +34,7 @@ module Moory
 
     def perform_for(response)
       perform_always(response[:output])
-      perform_effector(response)
+      perform_special(response)
     end
 
     def move_according_to(response)
@@ -45,7 +45,7 @@ module Moory
       guarded_call(always, output)
     end
 
-    def perform_effector(response)
+    def perform_special(response)
       guarded_call(
         repertoire.recall(response[:effector]),
         response[:output]
