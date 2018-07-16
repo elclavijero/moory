@@ -65,6 +65,29 @@ RSpec.describe Moory::Transition::Storage do
     end
   end
 
+  describe '#receptors' do
+    before do
+      transitions.store(origin: '0', stimulus: 'a', settlement: '1')
+      transitions.store(origin: '0', stimulus: 'b', settlement: '2')
+      transitions.store(origin: '1', stimulus: 'a', settlement: '2')
+      transitions.store(origin: '1', stimulus: 'b', settlement: '1')
+      transitions.store(origin: '2', stimulus: 'a', settlement: '2')
+      transitions.store(origin: '2', stimulus: 'b', settlement: '2')
+    end
+
+    context 'given a known origin' do
+      it 'will enumerate the "receptors"' do
+        expect(
+          transitions.receptors(origin: '0')
+        ).to eq(
+          [
+            { 'a' => { settlement: '1' }, 'b' => { settlement: '2' } },
+          ]
+        )
+      end
+    end
+  end
+
   context 'given parameters having falsy origin, stimulus, or settlement' do
     it 'will not increase #count' do
       falsy_origin     = { origin: nil, stimulus: '',    settlement: '' }

@@ -6,11 +6,19 @@ module Moory
       end
       
       def store(params)
-        storage.merge!(Record.new(params))
+        storage.merge!(Record.new(params)) do |key, oldval, newval|
+          oldval.merge!(newval)
+        end
       end
 
       def the(origin:, stimulus:)
         storage.dig(origin, stimulus)
+      end
+
+      def receptors(origin:)
+        storage
+          .select { |k| k == origin }
+          .values
       end
 
       private
