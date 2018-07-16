@@ -4,7 +4,21 @@ RSpec.describe Moory::Interpreter do
   end
 
   let(:transitions) do
-    spy("transitions")
+    Moory::Transition::Storage.new.tap do |t|
+      ab_star_rules.each { |r| t.store(r) }
+    end
+  end
+
+  let(:ab_star_rules) do
+    [
+      { origin: '0', stimulus: 'a', settlement: '1' },
+      { origin: '0', stimulus: 'b', settlement: '2' },
+      { origin: '1', stimulus: 'a', settlement: '2' },
+      { origin: '1', stimulus: 'b', settlement: '1' },
+      { origin: '2', stimulus: 'a', settlement: '2' },
+      { origin: '2', stimulus: 'b', settlement: '2' },
+      { origin: '2', stimulus: 'c', settlement: '2' },
+    ]
   end
 
   describe '#states' do
@@ -12,10 +26,8 @@ RSpec.describe Moory::Interpreter do
       the_interpreter.transitions = transitions
     end
 
-    it 'will delegate to its transitions' do  
-      the_interpreter.states
-
-      expect(transitions).to have_received(:states)
+    it 'will return #<Set: {"0", "1", "2"}>' do
+      expect(the_interpreter.states).to eq(Set['0', '1', '2'])
     end
   end
 
@@ -24,10 +36,8 @@ RSpec.describe Moory::Interpreter do
       the_interpreter.transitions = transitions
     end
 
-    it 'will delegate to its transitions' do  
-      the_interpreter.alphabet
-
-      expect(transitions).to have_received(:alphabet)
+    it 'will return #<Set: {"a", "b", "c"}>' do
+      expect(the_interpreter.alphabet).to eq(Set['a', 'b', 'c'])
     end
   end
 
