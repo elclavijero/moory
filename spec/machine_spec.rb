@@ -147,7 +147,7 @@ RSpec.describe Moory::Machine do
             end
           end
 
-          context 'but the response settlement equals from #state,' do
+          context 'but the response settlement equals #state,' do
             before do
               allow(transitions)
                 .to receive(:response)
