@@ -3,13 +3,12 @@ module Moory
     attr_accessor :transitions
     attr_accessor :repertoire
     attr_accessor :state
+
     extend Forwardable
-    
-    def_delegator :@transitions, :states
-    def_delegator :@transitions, :alphabet
+    def_delegators :@transitions, :states, :alphabet
 
     def_delegators :@repertoire, :always=, :always
-    def_delegator :@repertoire, :fallback=
+    def_delegators :@repertoire, :fallback=, :fallback
 
     def putm(stimulus)
       if response = transitions.response(origin: state, stimulus: stimulus)
