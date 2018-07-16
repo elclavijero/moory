@@ -14,11 +14,22 @@ RSpec.describe Moory::Machine do
     double("repertoire").tap do |dbl|
       allow(dbl).to receive(:always=)
       allow(dbl).to receive(:fallback=)
+    
+      allow(dbl)
+        .to receive(
+          :always
+        ).and_return(
+          always_called
+        )
     end
   end
 
-  let(:a_callable_object) do
-    spy("a callable object")
+  let(:always_called) do
+    spy("always called")
+  end
+
+  let(:sometimes_called) do
+    spy("sometimes called")
   end
 
   before do
@@ -51,6 +62,8 @@ RSpec.describe Moory::Machine do
   end
 
   describe '#understand?' do
+    # NB: I think we can say: response ⇒ understand?
+    # but I'll need to prove this.
     context 'given a state-specific alphabet,' do
       before do
         machine.state = state
@@ -88,24 +101,28 @@ RSpec.describe Moory::Machine do
 
   describe '#always=' do
     it 'delegates to #repertoire' do
-      machine.always = a_callable_object
+      machine.always = always_called
 
       expect(
         repertoire
       ).to have_received(
         :always=
+      ).with(
+        always_called
       )
     end
   end
 
   describe '#fallback=' do
     it 'delegates to #repertoire' do
-      machine.fallback = a_callable_object
+      machine.fallback = sometimes_called
 
       expect(
         repertoire
       ).to have_received(
         :fallback=
+      ).with(
+        sometimes_called
       )
     end
   end
@@ -190,7 +207,40 @@ RSpec.describe Moory::Machine do
       end
     end
 
-    describe 'ALWAYS INVOCATION'
+    describe 'ALWAYS INVOCATION' do
+      context 'providing #state is defined,' do
+        before do
+          machine.state = before_state
+        end
+
+        let(:before_state) { '0' }
+
+        context 'and the given message is understood,' do
+          let(:understood) { 'understood' }
+
+          before do
+            allow(transitions)
+              .to receive(:response)
+              .with(origin: before_state, stimulus: understood)
+              .and_return(
+                settlement: before_state,
+            )
+          end
+
+          it 'will invoke #always from the repertoire' do
+            machine.putm(understood)
+
+            expect(
+              always_called
+            ).to have_received(
+              :call
+            ).with(
+              no_args
+            )
+          end
+        end
+      end
+    end
 
     describe 'RECOLLECTION INVOCATION'
   end

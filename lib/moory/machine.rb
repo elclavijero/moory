@@ -14,6 +14,7 @@ module Moory
     def putm(stimulus)
       response = transitions.response(origin: state, stimulus: stimulus)
 
+      repertoire.always.call if response
       move_according_to(response) if response
     end
 
