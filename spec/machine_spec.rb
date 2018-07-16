@@ -166,6 +166,27 @@ RSpec.describe Moory::Machine do
             end
           end
         end
+
+        context 'the given message is NOT understood,' do
+          let(:not_understood) { 'not_understood' }
+
+          before do
+            allow(transitions)
+              .to receive(:response)
+              .with(origin: before_state, stimulus: not_understood)
+              .and_return(
+                nil
+              )
+          end
+
+          it 'will not change #state' do
+            expect{
+              machine.putm(not_understood)
+            }.not_to change {
+              machine.state
+            }
+          end
+        end
       end
     end
   end

@@ -14,7 +14,7 @@ module Moory
     def putm(stimulus)
       response = transitions.response(origin: state, stimulus: stimulus)
 
-      move_according_to(response)
+      move_according_to(response) if response
     end
 
     def understand?(stimulus)
