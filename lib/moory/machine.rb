@@ -11,10 +11,20 @@ module Moory
     def_delegator :@repertoire, :always=
     def_delegator :@repertoire, :fallback=
 
-    def understand?(msg)
+    def putm(stimulus)
+      response = transitions.response(origin: state, stimulus: stimulus)
+
+      move_according_to(response)
+    end
+
+    def understand?(stimulus)
       transitions
         .alphabet(restrict: state)
-        .include?(msg)
+        .include?(stimulus)
+    end
+
+    def move_according_to(response)
+      @state = response[:settlement]
     end
   end
 end

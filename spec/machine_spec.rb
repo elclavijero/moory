@@ -109,4 +109,46 @@ RSpec.describe Moory::Machine do
       )
     end
   end
+
+  describe '#putm' do
+    describe 'state transition' do
+      context 'providing #state is defined,' do
+        before do
+          machine.state = before_state
+        end
+
+        let(:before_state) { '0' }
+
+        context 'the given message is understood,' do
+          let(:understood) { 'understood' }
+
+          context 'and the response from the transitions differs from #state,' do
+            before do
+              allow(transitions)
+                .to receive(:response)
+                .with(origin: before_state, stimulus: understood)
+                .and_return(
+                  settlement: after_state
+                )
+            end
+  
+            let(:after_state) { '1' }
+  
+            it 'will change #state to that named by the response settlement' do
+              expect{
+                machine.putm(understood)
+              }.to change {
+                machine.state
+              }.from(
+                before_state
+              ).to(
+                after_state
+              )
+            end
+          end
+        end
+
+      end
+    end
+  end
 end
