@@ -2,10 +2,10 @@ require 'moory/pair'
 
 module Moory
   class Parser
-    attr_reader :graph, :staged
+    attr_reader :transitions, :staged
   
     def initialize
-      @graph = Transition::Storage.new
+      @transitions = Transition::Storage.new
       prime_interpreter
     end
   
@@ -15,7 +15,7 @@ module Moory
         reset_interpreter
       end
 
-      return graph.storage
+      return transitions.storage
     end
   
     private
@@ -41,7 +41,7 @@ module Moory
     end
   
     def store
-      graph.store(staged)
+      transitions.store(staged)
     end
 
     def prime_interpreter
@@ -58,7 +58,7 @@ module Moory
 
     def config
       {
-        graph: {
+        transitions: {
           '0' => {
             ':'  => { state: '1', effector: 'stimulus' },
             ' '  => { state: '0' },

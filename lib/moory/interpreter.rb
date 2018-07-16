@@ -2,14 +2,14 @@ require 'set'
 
 module Moory
   class Interpreter
-    attr_accessor :graph, :effectors, :state
+    attr_accessor :transitions, :effectors, :state
     attr_reader   :fallback_effector, :default_proc
 
     SKIP = proc {}
     WARN = proc { |msg| warn "Did not understand: #{msg}" }
 
-    def initialize(graph: {}, effectors: {}, default_proc: SKIP, fallback_always: true, &block)
-      @graph        = graph
+    def initialize(transitions: {}, effectors: {}, default_proc: SKIP, fallback_always: true, &block)
+      @transitions        = transitions
       @effectors    = effectors
       @default_proc = default_proc
       @fallback_always = fallback_always
@@ -19,7 +19,7 @@ module Moory
 
     def load(source)
       p = Moory::Parser.new
-      @graph.merge!(p.analyse(source))
+      @transitions.merge!(p.analyse(source))
     end
 
     def fallback_effector=(obj)
@@ -50,16 +50,16 @@ module Moory
     end
 
     def receptors
-      graph.fetch(state,{}).keys.to_set
+      transitions.fetch(state,{}).keys.to_set
     end
 
     def states
-      @states ||= graph.keys.to_set
+      @states ||= transitions.keys.to_set
     end
 
     def alphabet
       @alphabet ||= Set.new(
-        graph.each_value.collect { |m| m.keys }.flatten
+        transitions.each_value.collect { |m| m.keys }.flatten
       )
     end
 
@@ -81,11 +81,11 @@ module Moory
     end
 
     def resettle(msg)
-      @state = graph[state][msg][:state]
+      @state = transitions[state][msg][:state]
     end
 
     def effector(msg)
-      candidate = graph[state][msg][:effector]
+      candidate = transitions[state][msg][:effector]
 
       if candidate.kind_of?(String)
         effectors[candidate]
@@ -99,7 +99,7 @@ module Moory
     end
 
     def output(msg)
-      graph[state][msg][:output]
+      transitions[state][msg][:output]
     end
 
     def bad_call(msg)
