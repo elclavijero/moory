@@ -10,8 +10,19 @@ RSpec.describe Moory::Machine do
     end
   end
 
+  let(:repertoire) do
+    double("repertoire").tap do |dbl|
+      allow(dbl).to receive(:always=)
+    end
+  end
+
+  let(:a_callable_object) do
+    spy("a callable object")
+  end
+
   before do
     machine.transitions = transitions
+    machine.repertoire  = repertoire
   end
 
   describe '#states' do
@@ -71,6 +82,18 @@ RSpec.describe Moory::Machine do
           ).not_to be
         end
       end
+    end
+  end
+
+  describe '#always=' do
+    it 'delegates to #repertoire' do
+      machine.always = a_callable_object
+
+      expect(
+        repertoire
+      ).to have_received(
+        :always=
+      )
     end
   end
 end
