@@ -26,4 +26,15 @@ RSpec.describe Moory::Transition::Storage do
       end
     end
   end
+
+  context 'given parameters having falsy origin, stimulus, or settlement' do
+    it 'will not increase #count' do
+      falsy_origin     = { origin: nil, stimulus: '',    settlement: '' }
+      falsy_stimulus   = { origin: '',  stimulus: false, settlement: '' }
+      falsy_settlement = { origin: '',  stimulus: '' }
+      expect{ transitions.store(falsy_origin)     }.not_to change{ transitions.count }
+      expect{ transitions.store(falsy_stimulus)   }.not_to change{ transitions.count }
+      expect{ transitions.store(falsy_settlement) }.not_to change{ transitions.count }
+    end
+  end
 end
