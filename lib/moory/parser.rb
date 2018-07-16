@@ -41,19 +41,13 @@ module Moory
     end
   
     def store
-      graph.store(
-        origin:     staged['source'],
-        stimulus:   staged['stimulus'],
-        settlement: staged['target'],
-        output:     staged['output'],
-        effector:   staged['effector']
-      )
+      graph.store(staged)
     end
 
     def prime_interpreter
       interpreter.state = '0'
       @staged   = {}
-      source
+      origin
     end
 
     alias reset_interpreter prime_interpreter
@@ -72,18 +66,18 @@ module Moory
           },
           '1' => { 
             '/'  => { state: '2', effector: 'output' },
-            ':'  => { state: '4', effector: 'target' },
+            ':'  => { state: '4', effector: 'settlement' },
             ' '  => { state: '1' },
             '\t' => { state: '1' }
           },
           '2' => {
-            ':'  => { state: '4', effector: 'target' },
+            ':'  => { state: '4', effector: 'settlement' },
             '/'  => { state: '3', effector: 'effector' },
             ' '  => { state: '2' },
             '\t' => { state: '2' }
           },
           '3' => {
-            ':'  => { state: '4', effector: method(:target) },
+            ':'  => { state: '4', effector: method(:settlement) },
             ' '  => { state: '2' },
             '\t' => { state: '2' }
           },
@@ -95,14 +89,14 @@ module Moory
         effectors: {
             'stimulus' => method(:stimulus),
             'output'   => method(:output),
-            'target'   => method(:target),
+            'settlement'   => method(:settlement),
             'effector' => method(:effector),
         }
       }
     end
 
     %w{
-      source stimulus target output effector
+      origin stimulus settlement output effector
     }.each { |c| define_method(c) { @focus = c } }
   end
 end
