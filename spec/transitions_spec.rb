@@ -5,13 +5,15 @@ RSpec.describe Moory::Transition::Storage do
 
   describe '#store' do
     context 'given parameters including at least origin, stimulus, and settlement' do
-      context 'providing they have not already been stored' do
-        it 'will increase #count by 1' do
+      context 'before anything has been stored' do
+        it 'will increase #count from 0 to 1' do
           expect{
             transitions.store(origin: '0', stimulus: 'a', settlement: '1')
           }.to change{
             transitions.count
-          }.by(
+          }.from(
+            0
+          ).to(
             1
           )
         end
@@ -27,7 +29,7 @@ RSpec.describe Moory::Transition::Storage do
         end
       end
 
-      context 'when those parameters have already been stored' do
+      context 'when the origin and stimulus have already been stored' do
         before do
           transitions.store(
             origin: '0',
@@ -62,17 +64,44 @@ RSpec.describe Moory::Transition::Storage do
           )
         end
       end
+
+      context 'when the storage is inhabited by representatives for other poise' do
+        before do
+          transitions.store(
+            origin: '0',
+            stimulus: 'a',
+            settlement: '1',
+            output: 'x',
+            effector: 'foo')
+        end
+
+        it 'will increase #count by 1' do
+          expect{
+            transitions.store(origin: '1', stimulus: 'a', settlement: '1')
+          }.to change{
+            transitions.count
+          }.by(
+            1
+          )
+        end
+      end
     end
   end
 
   describe '#receptors' do
     before do
-      transitions.store(origin: '0', stimulus: 'a', settlement: '1')
-      transitions.store(origin: '0', stimulus: 'b', settlement: '2')
-      transitions.store(origin: '1', stimulus: 'a', settlement: '2')
-      transitions.store(origin: '1', stimulus: 'b', settlement: '1')
-      transitions.store(origin: '2', stimulus: 'a', settlement: '2')
-      transitions.store(origin: '2', stimulus: 'b', settlement: '2')
+      ab_star_rules.each { |r| transitions.store(r) }
+    end
+
+    let(:ab_star_rules) do
+      [
+        { origin: '0', stimulus: 'a', settlement: '1' },
+        { origin: '0', stimulus: 'b', settlement: '2' },
+        { origin: '1', stimulus: 'a', settlement: '2' },
+        { origin: '1', stimulus: 'b', settlement: '1' },
+        { origin: '2', stimulus: 'a', settlement: '2' },
+        { origin: '2', stimulus: 'b', settlement: '2' },
+      ]
     end
 
     context 'given a known origin' do
