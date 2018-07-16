@@ -23,6 +23,8 @@ module Moory
         .include?(stimulus)
     end
 
+    private
+
     def honour(response)
       call_always(response[:output])
 
