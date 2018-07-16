@@ -33,17 +33,17 @@ module Moory
     end
 
     def perform_for(response)
-      call_always(response[:output])
+      perform_always(response[:output])
     end
 
     def move_according_to(response)
       @state = response[:settlement]
     end
 
-    def call_always(output)
+    def perform_always(output)
       guarded_call(always, output)
     end
-    
+
     def guarded_call(receiver, output)
       output ? receiver.call(output) : receiver.call
     end
