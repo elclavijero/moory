@@ -3,7 +3,7 @@ RSpec.describe Moory::Interpreter do
     Moory::Interpreter.new
   end
 
-  let(:transitions) do
+  let(:ab_star_transitions) do
     Moory::Transition::Storage.new.tap do |t|
       ab_star_rules.each { |r| t.store(r) }
     end
@@ -23,7 +23,7 @@ RSpec.describe Moory::Interpreter do
 
   describe '#states' do
     before do
-      the_interpreter.transitions = transitions
+      the_interpreter.transitions = ab_star_transitions
     end
 
     it 'will return #<Set: {"0", "1", "2"}>' do
@@ -33,7 +33,7 @@ RSpec.describe Moory::Interpreter do
 
   describe '#alphabet' do
     before do
-      the_interpreter.transitions = transitions
+      the_interpreter.transitions = ab_star_transitions
     end
 
     it 'will return #<Set: {"a", "b", "c"}>' do
