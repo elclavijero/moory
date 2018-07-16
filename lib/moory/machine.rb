@@ -8,7 +8,7 @@ module Moory
     def_delegator :@transitions, :states
     def_delegator :@transitions, :alphabet
 
-    def_delegator :@repertoire, :always=
+    def_delegators :@repertoire, :always=, :always
     def_delegator :@repertoire, :fallback=
 
     def putm(stimulus)
@@ -32,11 +32,15 @@ module Moory
     end
 
     def call_always(output)
-      output ? repertoire.always.call(output) : repertoire.always.call
+      guarded_call(always, output)
     end
 
     def move_according_to(response)
       @state = response[:settlement]
+    end
+
+    def guarded_call(receiver, output)
+      output ? receiver.call(output) : receiver.call
     end
   end
 end
