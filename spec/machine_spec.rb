@@ -15,14 +15,11 @@ RSpec.describe Moory::Machine do
       allow(dbl).to receive(:always=)
       allow(dbl).to receive(:fallback=)
     
-      allow(dbl)
-        .to receive(
-          :always
-        ).and_return(
-          always_called
-        )
+      allow(dbl).to receive(:always).and_return(always_called)
     end
   end
+
+  let(:effector_name) { 'effector' }
 
   let(:always_called) do
     spy("always called")
@@ -270,6 +267,48 @@ RSpec.describe Moory::Machine do
       end
     end
 
-    describe 'RECOLLECTION INVOCATION'
+    describe 'RECOLLECTION INVOCATION' do
+      context 'providing #state is defined,' do
+        before do
+          machine.state = before_state
+        end
+
+        let(:before_state) { '0' }
+
+        context 'the given message is understood,' do
+          let(:understood) { 'understood' }
+
+          context 'the response defines an effector, and output' do
+            before do
+              allow(transitions)
+                .to receive(:response)
+                .with(origin: before_state, stimulus: understood)
+                .and_return(
+                  settlement: before_state,
+                  output: some_output,
+                  effector: effector_name
+              )
+
+              allow(repertoire)
+                .to receive(:recall)
+            end
+
+            let(:some_output)   { 'some output' }
+
+            it 'will recall the effector from the repetoire' do
+              machine.issue(understood)
+
+              expect(
+                repertoire
+              ).to have_received(
+                :recall
+              ).with(
+                effector_name
+              )
+            end
+          end
+        end
+      end
+    end
   end
 end
