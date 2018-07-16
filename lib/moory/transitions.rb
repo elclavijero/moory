@@ -21,6 +21,13 @@ module Moory
           .values
       end
 
+      def local_alphabet(origin:)
+        receptors(origin: origin)
+          .collect { |r| r.keys }
+          .flatten
+          .to_set
+      end
+
       private
 
       def storage

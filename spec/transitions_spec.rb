@@ -88,20 +88,20 @@ RSpec.describe Moory::Transition::Storage do
     end
   end
 
+  let(:ab_star_rules) do
+    [
+      { origin: '0', stimulus: 'a', settlement: '1' },
+      { origin: '0', stimulus: 'b', settlement: '2' },
+      { origin: '1', stimulus: 'a', settlement: '2' },
+      { origin: '1', stimulus: 'b', settlement: '1' },
+      { origin: '2', stimulus: 'a', settlement: '2' },
+      { origin: '2', stimulus: 'b', settlement: '2' },
+    ]
+  end
+
   describe '#receptors' do
     before do
       ab_star_rules.each { |r| transitions.store(r) }
-    end
-
-    let(:ab_star_rules) do
-      [
-        { origin: '0', stimulus: 'a', settlement: '1' },
-        { origin: '0', stimulus: 'b', settlement: '2' },
-        { origin: '1', stimulus: 'a', settlement: '2' },
-        { origin: '1', stimulus: 'b', settlement: '1' },
-        { origin: '2', stimulus: 'a', settlement: '2' },
-        { origin: '2', stimulus: 'b', settlement: '2' },
-      ]
     end
 
     context 'given a known origin' do
@@ -112,6 +112,22 @@ RSpec.describe Moory::Transition::Storage do
           [
             { 'a' => { settlement: '1' }, 'b' => { settlement: '2' } },
           ]
+        )
+      end
+    end
+  end
+
+  describe '#local_alphabet' do
+    before do
+      ab_star_rules.each { |r| transitions.store(r) }
+    end
+
+    context 'given a known origin' do
+      it 'will enumerate the subset of the alphabet applicable to the given origin' do
+        expect(
+          transitions.local_alphabet(origin: '0')
+        ).to eq(
+          Set['a', 'b']
         )
       end
     end
