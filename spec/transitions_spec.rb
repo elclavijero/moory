@@ -5,24 +5,40 @@ RSpec.describe Moory::Transition::Storage do
 
   describe '#store' do
     context 'given parameters including at least origin, stimulus, and settlement' do
-      it 'will increase #count by 1' do
-        expect{
+      context 'providing they have not already been stored' do
+        it 'will increase #count by 1' do
+          expect{
+            transitions.store(origin: '0', stimulus: 'a', settlement: '1')
+          }.to change{
+            transitions.count
+          }.by(
+            1
+          )
+        end
+  
+        it 'the stored response may then be retrieved using #the' do
           transitions.store(origin: '0', stimulus: 'a', settlement: '1')
-        }.to change{
-          transitions.count
-        }.by(
-          1
-        )
+  
+          expect(
+            transitions.the(origin: '0', stimulus: 'a')
+          ).to eq(
+            settlement: '1'
+          )
+        end
       end
 
-      it 'the stored response may then be retrieved using #the' do
-        transitions.store(origin: '0', stimulus: 'a', settlement: '1')
+      context 'when those parameters have already been stored' do
+        before do
+          transitions.store(origin: '0', stimulus: 'a', settlement: '1')
+        end
 
-        expect(
-          transitions.the(origin: '0', stimulus: 'a')
-        ).to eq(
-          settlement: '1'
-        )
+        it 'will not increase #count' do
+          expect{
+            transitions.store(origin: '0', stimulus: 'a', settlement: '2')
+          }.not_to change{ 
+            transitions.count
+          }
+        end
       end
     end
   end
