@@ -122,7 +122,7 @@ RSpec.describe Moory::Machine do
         context 'the given message is understood,' do
           let(:understood) { 'understood' }
 
-          context 'and the response from the transitions differs from #state,' do
+          context 'and the response settlement differs from #state,' do
             before do
               allow(transitions)
                 .to receive(:response)
@@ -146,8 +146,26 @@ RSpec.describe Moory::Machine do
               )
             end
           end
-        end
 
+          context 'but the response settlement equals from #state,' do
+            before do
+              allow(transitions)
+                .to receive(:response)
+                .with(origin: before_state, stimulus: understood)
+                .and_return(
+                  settlement: before_state
+                )
+            end
+
+            it 'will not change #state' do
+              expect{
+                machine.putm(understood)
+              }.not_to change {
+                machine.state
+              }
+            end
+          end
+        end
       end
     end
   end
