@@ -111,7 +111,7 @@ RSpec.describe Moory::Machine do
   end
 
   describe '#putm' do
-    describe 'state transition' do
+    describe 'STATE TRANSITIONS' do
       context 'providing #state is defined,' do
         before do
           machine.state = before_state
@@ -189,5 +189,9 @@ RSpec.describe Moory::Machine do
         end
       end
     end
+
+    describe 'ALWAYS INVOCATION'
+
+    describe 'RECOLLECTION INVOCATION'
   end
 end
