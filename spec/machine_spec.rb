@@ -127,7 +127,7 @@ RSpec.describe Moory::Machine do
     end
   end
 
-  describe '#putm' do
+  describe '#issue' do
     describe 'STATE TRANSITIONS' do
       context 'providing #state is defined,' do
         before do
@@ -153,7 +153,7 @@ RSpec.describe Moory::Machine do
   
             it 'will change #state to that named by the response settlement' do
               expect{
-                machine.putm(understood)
+                machine.issue(understood)
               }.to change {
                 machine.state
               }.from(
@@ -176,7 +176,7 @@ RSpec.describe Moory::Machine do
 
             it 'will not change #state' do
               expect{
-                machine.putm(understood)
+                machine.issue(understood)
               }.not_to change {
                 machine.state
               }
@@ -198,7 +198,7 @@ RSpec.describe Moory::Machine do
 
           it 'will not change #state' do
             expect{
-              machine.putm(not_understood)
+              machine.issue(not_understood)
             }.not_to change {
               machine.state
             }
@@ -232,7 +232,7 @@ RSpec.describe Moory::Machine do
             let(:some_output) { 'some output' }
 
             it 'will invoke #always from the repertoire with arguments' do
-              machine.putm(understood)
+              machine.issue(understood)
   
               expect(
                 always_called
@@ -255,7 +255,7 @@ RSpec.describe Moory::Machine do
             end
   
             it 'will invoke #always from the repertoire without arguments' do
-              machine.putm(understood)
+              machine.issue(understood)
   
               expect(
                 always_called
