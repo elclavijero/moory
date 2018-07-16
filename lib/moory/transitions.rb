@@ -11,7 +11,7 @@ module Moory
         end
       end
 
-      def the(origin:, stimulus:)
+      def response(origin:, stimulus:)
         storage.dig(origin, stimulus)
       end
 

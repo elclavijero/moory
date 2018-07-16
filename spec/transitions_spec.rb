@@ -22,7 +22,7 @@ RSpec.describe Moory::Transition::Storage do
           transitions.store(origin: '0', stimulus: 'a', settlement: '1')
   
           expect(
-            transitions.the(origin: '0', stimulus: 'a')
+            transitions.response(origin: '0', stimulus: 'a')
           ).to eq(
             settlement: '1'
           )
@@ -56,7 +56,7 @@ RSpec.describe Moory::Transition::Storage do
             effector: 'bar')
 
           expect(
-            transitions.the(origin: '0', stimulus: 'a')
+            transitions.response(origin: '0', stimulus: 'a')
           ).to eq(
             settlement: '2',
             output: 'y',
