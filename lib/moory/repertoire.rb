@@ -18,16 +18,16 @@ module Moory
       @knowledge = {}
     end
 
-    def recall(name)
-      name ? 
-        knowledge.fetch(name, fallback) : 
-        fallback
-    end
-    
     def learn(item:,name:)
       @knowledge.store(name, item) if (
         appropriate?(item) && name
       )
+    end
+
+    def recall(name)
+      name ? 
+        knowledge.fetch(name, fallback) : 
+        fallback
     end
 
     def fallback=(obj)
