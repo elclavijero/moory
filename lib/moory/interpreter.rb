@@ -54,7 +54,7 @@ module Moory
     end
 
     def states
-      @states ||= transitions.keys.to_set
+      @states ||= transitions.states
     end
 
     def alphabet
