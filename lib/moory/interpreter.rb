@@ -9,7 +9,7 @@ module Moory
     WARN = proc { |msg| warn "Did not understand: #{msg}" }
 
     def initialize(transitions: {}, effectors: {}, default_proc: SKIP, fallback_always: true, &block)
-      @transitions        = transitions
+      @transitions  = transitions
       @effectors    = effectors
       @default_proc = default_proc
       @fallback_always = fallback_always
