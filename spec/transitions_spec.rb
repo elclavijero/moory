@@ -39,6 +39,16 @@ RSpec.describe Moory::Transition::Storage do
             transitions.count
           }
         end
+
+        it 'will overwrite the existing settlement, output, and effector' do
+          transitions.store(origin: '0', stimulus: 'a', settlement: '2')
+
+          expect(
+            transitions.the(origin: '0', stimulus: 'a')
+          ).to eq(
+            settlement: '2'
+          )
+        end
       end
     end
   end
