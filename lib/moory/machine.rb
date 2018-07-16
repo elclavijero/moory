@@ -1,9 +1,9 @@
 module Moory
   class Machine
-    attr_accessor :transition_relation
+    attr_accessor :transitions
     extend Forwardable
     
-    def_delegator :@transition_relation, :states
-    def_delegator :@transition_relation, :alphabet
+    def_delegator :@transitions, :states
+    def_delegator :@transitions, :alphabet
   end
 end

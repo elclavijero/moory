@@ -3,7 +3,7 @@ RSpec.describe Moory::Machine do
     Moory::Machine.new
   end
 
-  let(:transition_relation) do
+  let(:transitions) do
     double("transition relation").tap do |dbl|
       allow(dbl).to receive(:states)
       allow(dbl).to receive(:alphabet)
@@ -11,15 +11,15 @@ RSpec.describe Moory::Machine do
   end
 
   before do
-    machine.transition_relation = transition_relation
+    machine.transitions = transitions
   end
 
   describe '#states' do
-    it 'delegates to #transition_relation' do
+    it 'delegates to #transitions' do
       machine.states
 
       expect(
-        transition_relation
+        transitions
       ).to have_received(
         :states
       )
@@ -27,11 +27,11 @@ RSpec.describe Moory::Machine do
   end
 
   describe '#alphabet' do
-    it 'delegates to #transition_relation' do
+    it 'delegates to #transitions' do
       machine.alphabet
 
       expect(
-        transition_relation
+        transitions
       ).to have_received(
         :alphabet
       )
@@ -41,7 +41,7 @@ RSpec.describe Moory::Machine do
   describe '#understand?' do
     context 'given a state-specific alphabet,' do
       before do
-        allow(transition_relation)
+        allow(transitions)
           .to receive(:alphabet)
           .with(restrict: state)
           .and_return(state_alphabet)
