@@ -43,30 +43,22 @@ RSpec.describe Moory::Interpreter do
 
   describe '#receptors' do
     before(:each) do
-      the_interpreter.transitions = {
-        '0' => { 'a' => {} },
-        '1' => { 'b' => {} }, 
-        '2' => { 'b' => {} },
-      }
+      the_interpreter.transitions = ab_star_transitions
     end
 
     it 'will return a subset of the alphabet, depending on its state' do
       the_interpreter.state = '0'
-      expect(the_interpreter.receptors).to eq(%w{ a }.to_set)
+      expect(the_interpreter.receptors).to eq(%w{ a b }.to_set)
 
-      the_interpreter.state = '1'
-      expect(the_interpreter.receptors).to eq(%w{ b }.to_set)
+      the_interpreter.state = '2'
+      expect(the_interpreter.receptors).to eq(%w{ a b c }.to_set)
     end
   end
 
   describe '#understand?' do
     context 'providing the interpreter has been assigned a state' do
       before(:each) do
-        the_interpreter.transitions = {
-          '0' => { 'a' => {} },
-          '1' => { 'b' => {} }, 
-          '2' => { 'b' => {} },
-        }
+        the_interpreter.transitions = ab_star_transitions
         the_interpreter.state = '0'
       end
 
@@ -81,6 +73,7 @@ RSpec.describe Moory::Interpreter do
   describe '#putm' do
     context 'if the interpeter state is undefined' do
       before do
+        the_interpreter.transitions = ab_star_transitions
         the_interpreter.state = nil
       end
 
@@ -95,25 +88,24 @@ RSpec.describe Moory::Interpreter do
     
     describe 'transitions between states' do
       before(:each) do
-        the_interpreter.transitions = {
-          'origin' => { 'known message' => { state: 'settlement' } }
-        }
-        the_interpreter.state = 'origin'
+        the_interpreter.transitions = ab_star_transitions
+        the_interpreter.state = '0'
       end
 
       context 'when given a message that the interpreter understands' do
         it 'will settle the machine into the corresponding state' do
-          expect(the_interpreter.understand?('known message')).to be
+          expect(the_interpreter.understand?('a')).to be
 
-          the_interpreter.putm('known message')
+          the_interpreter.putm('a')
 
-          expect(the_interpreter.state).to eq('settlement')
+          expect(the_interpreter.state).to eq('1')
         end
       end
 
       context 'when given a messsage that the interpreter does not understand' do
         context 'and the default proc is WARN' do
           before do
+            the_interpreter.transitions = ab_star_transitions
             the_interpreter.default_proc = Moory::Interpreter::WARN
           end
 
@@ -130,6 +122,7 @@ RSpec.describe Moory::Interpreter do
 
         context 'and the default proc is SKIP' do
           before do
+            the_interpreter.transitions = ab_star_transitions
             the_interpreter.default_proc = Moory::Interpreter::SKIP
           end
 
@@ -155,15 +148,15 @@ RSpec.describe Moory::Interpreter do
       end
 
       let(:full_transitions) do
-        {
-          'origin' => { 'stimulus' => 
-            { 
-              state:    'settlement', 
-              output:   'hello',
-              effector: an_effector
-            } 
-          }
-        }
+        Moory::Transition::Storage.new.tap do |t|
+          t.store(
+            origin: 'origin',
+            stimulus: 'stimulus',
+            settlement: 'settlement',
+            output: 'output',
+            effector: an_effector
+          )
+        end
       end
 
       let(:transitions_lacks_effector) do

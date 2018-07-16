@@ -50,7 +50,7 @@ module Moory
     end
 
     def receptors
-      transitions.fetch(state,{}).keys.to_set
+      transitions.alphabet(restrict:state)
     end
 
     def states
@@ -79,11 +79,11 @@ module Moory
     end
 
     def resettle(msg)
-      @state = transitions[state][msg][:state]
+      @state = transitions.response(origin: state, stimulus: msg)[:settlement]
     end
 
     def effector(msg)
-      candidate = transitions[state][msg][:effector]
+      candidate = transitions.response(origin: state, stimulus: msg)[:effector]
 
       if candidate.kind_of?(String)
         effectors[candidate]
@@ -97,7 +97,7 @@ module Moory
     end
 
     def output(msg)
-      transitions[state][msg][:output]
+      transitions.response(origin: state, stimulus: msg)[:output]
     end
 
     def bad_call(msg)
