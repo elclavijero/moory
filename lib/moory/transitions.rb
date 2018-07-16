@@ -9,6 +9,10 @@ module Moory
         storage.merge!(Record.new(params))
       end
 
+      def the(origin:, stimulus:)
+        storage.dig(origin, stimulus)
+      end
+
       private
 
       def storage

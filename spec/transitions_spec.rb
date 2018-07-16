@@ -14,6 +14,16 @@ RSpec.describe Moory::Transition::Storage do
           1
         )
       end
+
+      it 'the stored response may then be retrieved using #the' do
+        transitions.store(origin: '0', stimulus: 'a', settlement: '1')
+
+        expect(
+          transitions.the(origin: '0', stimulus: 'a')
+        ).to eq(
+          settlement: '1'
+        )
+      end
     end
   end
 end
