@@ -1,37 +1,18 @@
 module Moory
   module Transition
     class Storage
-      def storage
-        @storage ||= {}
-      end
-  
       def count
         storage.size
       end
-  
+      
       def store(params)
-        storage.merge!(transition(params))
+        storage.merge!(Record.new(params))
       end
-  
+
       private
-  
-      def transition(params)
-        poise(params).shunt(response(params))
-      end
-  
-      def poise(params)
-        Moory::Pair.new(
-          left:  params['source'],
-          right: params['stimulus']
-        )
-      end
-  
-      def response(params)
-        { 
-          state:    params['target'],
-          output:   params['output'],
-          effector: params['effector']
-        }.compact
+
+      def storage
+        @storage ||= {}
       end
     end
 
@@ -48,19 +29,16 @@ module Moory
         origin && stimulus && settlement
       end
 
-      def poise
-        Moory::Pair.new(
-          left:  origin,
-          right: stimulus
-        )
-      end
+      def to_hash
+        return {} unless valid?
 
-      def response
-        { 
+        p = Pair.new(left: origin, right: stimulus)
+
+        p.shunt({ 
           settlement: settlement,
           output:     output,
           effector:   effector
-        }.compact
+        }.compact)
       end
     end
   end
