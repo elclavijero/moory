@@ -21,8 +21,10 @@ module Moory
           .values
       end
 
-      def local_alphabet(origin:)
-        receptors(origin: origin)
+      def alphabet(restrict:nil)
+        storage
+          .select  { |k| restrict ? k == restrict : true }
+          .values
           .collect { |r| r.keys }
           .flatten
           .to_set
