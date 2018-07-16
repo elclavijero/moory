@@ -9,7 +9,7 @@ RSpec.describe Moory::Parser do
         the_config = the_parser.analyse('origin : stimulus : settlement')
 
         expect(the_config).to eq({
-          'origin' => { 'stimulus' => { state: 'settlement' } }
+          'origin' => { 'stimulus' => { settlement: 'settlement' } }
         })
       end
     end
@@ -21,7 +21,7 @@ RSpec.describe Moory::Parser do
 
       it 'will create a config representing the transition and the output' do
         expect(the_config).to eq(
-          'origin' => { 'stimulus' => { state: 'settlement', output: 'output' } }
+          'origin' => { 'stimulus' => { settlement: 'settlement', output: 'output' } }
         )
       end
 
@@ -29,7 +29,7 @@ RSpec.describe Moory::Parser do
         has_empty_output = "origin : stimulus / : settlement"
 
         expect(the_parser.analyse(has_empty_output)).to eq({
-          'origin' => { 'stimulus' => { state: 'settlement' } }
+          'origin' => { 'stimulus' => { settlement: 'settlement' } }
         })
       end
     end
@@ -44,7 +44,7 @@ RSpec.describe Moory::Parser do
           'origin' => { 
             'stimulus' => 
             { 
-              state: 'settlement',
+              settlement: 'settlement',
               effector: 'foo'
             } 
           }
@@ -55,7 +55,7 @@ RSpec.describe Moory::Parser do
         has_empty_output = "origin : stimulus / / : settlement"
 
         expect(the_parser.analyse(has_empty_output)).to eq({
-          'origin' => { 'stimulus' => { state: 'settlement' } }
+          'origin' => { 'stimulus' => { settlement: 'settlement' } }
         })
       end
     end
@@ -86,7 +86,7 @@ RSpec.describe Moory::Parser do
           """
 
           expect(the_parser.analyse(input)).to eq({
-            'origin' => { 'stimulus' => { state: 'settlement', output: 'output' } }
+            'origin' => { 'stimulus' => { settlement: 'settlement', output: 'output' } }
           })
         end
       end
@@ -99,7 +99,7 @@ RSpec.describe Moory::Parser do
           """
 
           expect(the_parser.analyse(input)).to eq({
-            'origin' => { 'stimulus' => { state: 'settlement', output: 'output' } }
+            'origin' => { 'stimulus' => { settlement: 'settlement', output: 'output' } }
           })
         end
       end
@@ -112,7 +112,7 @@ RSpec.describe Moory::Parser do
           """
 
           expect(the_parser.analyse(input)).to eq({
-            'origin' => { 'stimulus' => { state: 'settlement', output: 'output' } }
+            'origin' => { 'stimulus' => { settlement: 'settlement', output: 'output' } }
           })
         end
       end

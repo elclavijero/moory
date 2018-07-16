@@ -24,8 +24,6 @@ module Moory
           .to_set
       end
 
-      private
-
       def storage
         @storage ||= {}
       end

@@ -5,17 +5,17 @@ module Moory
     attr_reader :graph, :staged
   
     def initialize
-      @graph   = {}
+      @graph = Transition::Storage.new
       prime_interpreter
     end
   
     def analyse(input)
       input.each_line do |line| 
-        scan(line); store if valid?
+        scan(line); store
         reset_interpreter
       end
 
-      return graph
+      return graph.storage
     end
   
     private
@@ -41,32 +41,13 @@ module Moory
     end
   
     def store
-      graph.merge!(transition)
-    end
-
-    def transition
-      poise.shunt(response)
-    end
-
-    def poise
-      Moory::Pair.new(
-        left: staged['source'],
-        right: staged['stimulus']
+      graph.store(
+        origin:     staged['source'],
+        stimulus:   staged['stimulus'],
+        settlement: staged['target'],
+        output:     staged['output'],
+        effector:   staged['effector']
       )
-    end
-
-    def response
-      { 
-        state:    staged['target'],
-        output:   staged['output'],
-        effector: staged['effector']
-      }.compact
-    end
-  
-    def valid?
-      staged['source']   && 
-      staged['stimulus'] && 
-      staged['target']
     end
 
     def prime_interpreter
