@@ -27,9 +27,13 @@ module Moory
     private
 
     def honour(response)
-      call_always(response[:output])
+      perform_for(response)
 
       move_according_to(response)
+    end
+
+    def perform_for(response)
+      call_always(response[:output]) if repertoire
     end
 
     def call_always(output)
