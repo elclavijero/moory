@@ -218,25 +218,53 @@ RSpec.describe Moory::Machine do
         context 'and the given message is understood,' do
           let(:understood) { 'understood' }
 
-          before do
-            allow(transitions)
-              .to receive(:response)
-              .with(origin: before_state, stimulus: understood)
-              .and_return(
-                settlement: before_state,
-            )
+          context 'and the response defines output' do
+            before do
+              allow(transitions)
+                .to receive(:response)
+                .with(origin: before_state, stimulus: understood)
+                .and_return(
+                  settlement: before_state,
+                  output: some_output
+              )
+            end
+
+            let(:some_output) { 'some output' }
+
+            it 'will invoke #always from the repertoire with arguments' do
+              machine.putm(understood)
+  
+              expect(
+                always_called
+              ).to have_received(
+                :call
+              ).with(
+                some_output
+              )
+            end
           end
 
-          it 'will invoke #always from the repertoire' do
-            machine.putm(understood)
-
-            expect(
-              always_called
-            ).to have_received(
-              :call
-            ).with(
-              no_args
-            )
+          context 'but the response does not define output' do  
+            before do
+              allow(transitions)
+                .to receive(:response)
+                .with(origin: before_state, stimulus: understood)
+                .and_return(
+                  settlement: before_state,
+              )
+            end
+  
+            it 'will invoke #always from the repertoire without arguments' do
+              machine.putm(understood)
+  
+              expect(
+                always_called
+              ).to have_received(
+                :call
+              ).with(
+                no_args
+              )
+            end
           end
         end
       end

@@ -12,10 +12,14 @@ module Moory
     def_delegator :@repertoire, :fallback=
 
     def putm(stimulus)
-      response = transitions.response(origin: state, stimulus: stimulus)
+      # response = transitions.response(origin: state, stimulus: stimulus)
 
-      repertoire.always.call if response
-      move_according_to(response) if response
+      if response = transitions.response(origin: state, stimulus: stimulus)
+        output = response[:output]
+        output ? repertoire.always.call(output) : repertoire.always.call
+        # repertoire.always.call
+        move_according_to(response)
+      end
     end
 
     def understand?(stimulus)
