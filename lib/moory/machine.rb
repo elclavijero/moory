@@ -46,7 +46,10 @@ module Moory
     end
 
     def perform_effector(response)
-      repertoire.recall(response[:effector]) if response[:effector]
+      guarded_call(
+        repertoire.recall(response[:effector]),
+        response[:output]
+      ) if response[:effector]
     end
 
     def guarded_call(receiver, output)

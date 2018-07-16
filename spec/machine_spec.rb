@@ -291,6 +291,7 @@ RSpec.describe Moory::Machine do
 
               allow(repertoire)
                 .to receive(:recall)
+                .and_return(sometimes_called)
             end
 
             let(:some_output)   { 'some output' }
@@ -306,6 +307,18 @@ RSpec.describe Moory::Machine do
                 effector_name
               )
             end
+
+            # it 'will call the recollection' do
+            #   machine.issue(understood)
+
+            #   expect(
+            #     sometimes_called
+            #   ).to have_received(
+            #     :call
+            #   ).with(
+            #     some_output
+            #   )
+            # end
           end
         end
       end
