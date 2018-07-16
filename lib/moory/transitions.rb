@@ -15,12 +15,6 @@ module Moory
         storage.dig(origin, stimulus)
       end
 
-      def receptors(origin:)
-        storage
-          .select { |k| k == origin }
-          .values
-      end
-
       def alphabet(restrict:nil)
         storage
           .select  { |k| restrict ? k == restrict : true }

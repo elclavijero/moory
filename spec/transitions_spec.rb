@@ -100,24 +100,6 @@ RSpec.describe Moory::Transition::Storage do
     ]
   end
 
-  describe '#receptors' do
-    before do
-      ab_star_rules.each { |r| transitions.store(r) }
-    end
-
-    context 'given a known origin' do
-      it 'will enumerate the "receptors"' do
-        expect(
-          transitions.receptors(origin: '0')
-        ).to eq(
-          [
-            { 'a' => { settlement: '1' }, 'b' => { settlement: '2' } },
-          ]
-        )
-      end
-    end
-  end
-
   describe '#alphabet' do
     before do
       ab_star_rules.each { |r| transitions.store(r) }
