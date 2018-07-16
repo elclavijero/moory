@@ -29,7 +29,12 @@ RSpec.describe Moory::Transition::Storage do
 
       context 'when those parameters have already been stored' do
         before do
-          transitions.store(origin: '0', stimulus: 'a', settlement: '1')
+          transitions.store(
+            origin: '0',
+            stimulus: 'a',
+            settlement: '1',
+            output: 'x',
+            effector: 'foo')
         end
 
         it 'will not increase #count' do
@@ -41,12 +46,19 @@ RSpec.describe Moory::Transition::Storage do
         end
 
         it 'will overwrite the existing settlement, output, and effector' do
-          transitions.store(origin: '0', stimulus: 'a', settlement: '2')
+          transitions.store(
+            origin: '0', 
+            stimulus: 'a', 
+            settlement: '2',
+            output: 'y',
+            effector: 'bar')
 
           expect(
             transitions.the(origin: '0', stimulus: 'a')
           ).to eq(
-            settlement: '2'
+            settlement: '2',
+            output: 'y',
+            effector: 'bar'
           )
         end
       end
