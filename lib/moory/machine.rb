@@ -10,11 +10,13 @@ module Moory
     def_delegators :@repertoire, :always=, :always
     def_delegators :@repertoire, :fallback=, :fallback
 
-    def putm(stimulus)
+    def issue(stimulus)
       if response = transitions.response(origin: state, stimulus: stimulus)
         honour(response)
       end
     end
+
+    alias putm issue
 
     def understand?(stimulus)
       transitions
