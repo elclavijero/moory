@@ -13,6 +13,7 @@ RSpec.describe Moory::Machine do
   let(:repertoire) do
     double("repertoire").tap do |dbl|
       allow(dbl).to receive(:always=)
+      allow(dbl).to receive(:fallback=)
     end
   end
 
@@ -93,6 +94,18 @@ RSpec.describe Moory::Machine do
         repertoire
       ).to have_received(
         :always=
+      )
+    end
+  end
+
+  describe '#fallback=' do
+    it 'delegates to #repertoire' do
+      machine.fallback = a_callable_object
+
+      expect(
+        repertoire
+      ).to have_received(
+        :fallback=
       )
     end
   end

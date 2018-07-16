@@ -9,6 +9,7 @@ module Moory
     def_delegator :@transitions, :alphabet
 
     def_delegator :@repertoire, :always=
+    def_delegator :@repertoire, :fallback=
 
     def understand?(msg)
       transitions
