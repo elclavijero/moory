@@ -41,6 +41,8 @@ RSpec.describe Moory::Machine do
   describe '#understand?' do
     context 'given a state-specific alphabet,' do
       before do
+        machine.state = state
+        
         allow(transitions)
           .to receive(:alphabet)
           .with(restrict: state)
@@ -53,7 +55,11 @@ RSpec.describe Moory::Machine do
       context 'and message from therein,' do
         let(:message) { 'a' }
 
-        it 'will return true'
+        it 'will return true' do
+          expect(
+            machine.understand?(message)
+          ).to be
+        end
       end
     end
   end
