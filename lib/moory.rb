@@ -1,6 +1,6 @@
 require "moory/version"
 require "moory/collectionrefinement"
-require "moory/interpreter"
+require "moory/machine"
 require "moory/parser"
 require "moory/acceptor"
 require "moory/decoder"

@@ -1,5 +1,5 @@
 module Moory
-  class Interpreter
+  class Machine
     attr_accessor :transition_relation
     extend Forwardable
     

@@ -1,6 +1,6 @@
-RSpec.describe Moory::Interpreter do
-  let(:interpreter) do
-    Moory::Interpreter.new
+RSpec.describe Moory::Machine do
+  let(:machine) do
+    Moory::Machine.new
   end
 
   let(:transition_relation) do
@@ -11,12 +11,12 @@ RSpec.describe Moory::Interpreter do
   end
 
   before do
-    interpreter.transition_relation = transition_relation
+    machine.transition_relation = transition_relation
   end
 
   describe '#states' do
     it 'delegates to #transition_relation' do
-      interpreter.states
+      machine.states
 
       expect(
         transition_relation
@@ -28,7 +28,7 @@ RSpec.describe Moory::Interpreter do
 
   describe '#alphabet' do
     it 'delegates to #transition_relation' do
-      interpreter.alphabet
+      machine.alphabet
 
       expect(
         transition_relation
