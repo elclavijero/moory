@@ -8,15 +8,6 @@ RSpec.describe Moory::Interpreter do
   end
 
   describe '#states' do
-    # before do
-    #   the_interpreter.transitions = {
-    #     '0' => {}, '1' => {}, '2' => {}
-    #   }
-    # end
-
-    # it 'will return <Set: {"0", "1", "2"}>' do  
-    #   expect(the_interpreter.states).to eq(%w{ 0 1 2 }.to_set)
-    # end
     before do
       the_interpreter.transitions = transitions
     end
@@ -30,15 +21,13 @@ RSpec.describe Moory::Interpreter do
 
   describe '#alphabet' do
     before do
-      the_interpreter.transitions = {
-        '0' => { 'a' => {} },
-        '1' => { 'b' => {} }, 
-        '2' => { 'b' => {} },
-      }
+      the_interpreter.transitions = transitions
     end
 
-    it 'will return <Set: {"a", "b"}>' do
-      expect(the_interpreter.alphabet).to eq(%w{ a b }.to_set)
+    it 'will delegate to its transitions' do  
+      the_interpreter.alphabet
+
+      expect(transitions).to have_received(:alphabet)
     end
   end
 

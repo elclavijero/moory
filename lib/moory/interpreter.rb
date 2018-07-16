@@ -58,9 +58,7 @@ module Moory
     end
 
     def alphabet
-      @alphabet ||= Set.new(
-        transitions.each_value.collect { |m| m.keys }.flatten
-      )
+      @alphabet ||= transitions.alphabet
     end
 
     private
