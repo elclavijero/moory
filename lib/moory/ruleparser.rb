@@ -24,6 +24,7 @@ module Moory
 
       def prepare
         @state = 'origin'
+        @scan_data = Moory::Transition::Hasher.new
       end
 
       alias reset prepare
