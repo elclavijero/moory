@@ -17,7 +17,6 @@ module Moory
     }
 
     class Machine < Moory::Machine
-      attr_reader :focus
       attr_reader :scan_data
 
       def initialize
@@ -25,14 +24,18 @@ module Moory
         prepare
       end
 
-      def prepare
-        @focus = 'origin'
+      def reset
+        @state     = 'origin'
         @scan_data = Moory::Transition::Hasher.new
       end
 
-      alias reset prepare
-
       def <<;end
+
+      private
+
+      def prepare
+        reset
+      end
     end
   end
 end
