@@ -17,17 +17,22 @@ module Moory
     }
 
     class Machine < Moory::Machine
+      attr_reader :focus
+      attr_reader :scan_data
+
       def initialize
         @transitions = Transitions
-        @state = 'origin'
+        prepare
       end
 
       def prepare
-        @state = 'origin'
+        @focus = 'origin'
         @scan_data = Moory::Transition::Hasher.new
       end
 
       alias reset prepare
+
+      def <<;end
     end
   end
 end
