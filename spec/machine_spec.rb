@@ -307,18 +307,46 @@ RSpec.describe Moory::Machine do
                 effector_name
               )
             end
+          end
 
-            # it 'will call the recollection' do
-            #   machine.issue(understood)
+          context 'the response defines an effector, but lacks output' do
+            before do
+              allow(transitions)
+                .to receive(:response)
+                .with(origin: before_state, stimulus: understood)
+                .and_return(
+                  settlement: before_state,
+                  effector: effector_name
+              )
 
-            #   expect(
-            #     sometimes_called
-            #   ).to have_received(
-            #     :call
-            #   ).with(
-            #     some_output
-            #   )
-            # end
+              allow(repertoire)
+                .to receive(:recall)
+                .and_return(sometimes_called)
+            end
+
+            it 'will recall the effector from the repetoire' do
+              machine.issue(understood)
+
+              expect(
+                repertoire
+              ).to have_received(
+                :recall
+              ).with(
+                effector_name
+              )
+            end
+
+            it 'will call the recollection with no arguments' do
+              machine.issue(understood)
+
+              expect(
+                sometimes_called
+              ).to have_received(
+                :call
+              ).with(
+                no_args
+              )
+            end
           end
         end
       end
