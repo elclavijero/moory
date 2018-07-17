@@ -76,6 +76,44 @@ RSpec.describe Moory::Machine do
   end
 
   describe '#understand?' do
+    context 'providing the machine has been assigned a state,' do
+      before do
+        machine.state = state_with_egresses
+      end
+
+      let(:state_with_egresses) { '0' }
+
+      context 'and that state has egresses,' do
+        before do
+          allow(transitions)
+            .to receive(:egresses)
+            .with(state: '0')
+            .and_return(egresses)
+        end
+
+        let(:egresses) { %w{ a b c }.to_set }
+  
+        context 'given a stimulus belonging to egresses' do
+          let(:belongs) { 'a' }
+          
+          it 'will return true' do
+            expect(
+              machine.understand?(belongs)
+            ).to be
+          end
+        end
+  
+        context 'given a stimulus NOT belonging to egresses' do
+          let(:does_not_belong) { 'd' }
+          
+          it 'will return false' do
+            expect(
+              machine.understand?(does_not_belong)
+            ).not_to be
+          end
+        end
+      end
+    end
   end
 
   describe '#always=' do
