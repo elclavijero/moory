@@ -21,6 +21,12 @@ module Moory
         @transitions = Transitions
         @state = 'origin'
       end
+
+      def prepare
+        @state = 'origin'
+      end
+
+      alias reset prepare
     end
   end
 end
