@@ -52,17 +52,15 @@ module Moory
         origin && stimulus && settlement
       end
 
-      def to_hash(format: :for_storage)
+      def to_hash(for_storage: true)
         return {} unless valid?
 
-        format == :for_storage ? 
-          for_storage :
-          flat_record
+        for_storage ?  storage_hash : flat_hash
       end
 
       private
 
-      def for_storage
+      def storage_hash
         p = Pair.new(left: origin, right: stimulus)
 
         p.shunt({ 
@@ -72,7 +70,7 @@ module Moory
         }.compact)
       end
 
-      def flat_record
+      def flat_hash
         {
           origin: origin,
           stimulus: stimulus,
