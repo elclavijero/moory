@@ -29,7 +29,7 @@ module Moory
     def honour(response)
       perform(response) if repertoire
 
-      move_according_to(response)
+      settle_accordingly(response)
     end
 
     def perform(response)
@@ -37,7 +37,7 @@ module Moory
       perform_special(response)
     end
 
-    def move_according_to(response)
+    def settle_accordingly(response)
       @state = response[:settlement]
     end
 
