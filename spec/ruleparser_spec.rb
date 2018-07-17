@@ -30,6 +30,18 @@ RSpec.describe Moory::RuleParser::Machine do
           expect(machine.scan_data.origin).to eq(undistinguished_succession)
         end
       end
+
+      context 'given a colon,' do
+        it 'will change #state to stimulus' do
+          expect {
+            machine << ':'
+          }.to change {
+            machine.state
+          }.to (
+            'stimulus'
+          )
+        end
+      end
     end
   end
 end

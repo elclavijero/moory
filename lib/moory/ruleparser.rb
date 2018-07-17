@@ -30,7 +30,9 @@ module Moory
       end
 
       def <<(char)
-        target(state) << char
+        special?(char) ?
+          issue(char) :
+          target(state) << char
       end
 
       private
@@ -42,6 +44,10 @@ module Moory
       def target(state)
         @scan_data.send("#{state}=", '') unless @scan_data.send(state)
         @scan_data.send(state)
+      end
+
+      def special?(char)
+        understand?(char)
       end
     end
   end
