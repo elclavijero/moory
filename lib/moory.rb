@@ -5,7 +5,7 @@ require "moory/machine"
 require "moory/transitions"
 require "moory/repertoire"
 
-require "moory/parser"
+require "moory/ruleparser"
 
 module Moory
   # Your code goes here...
