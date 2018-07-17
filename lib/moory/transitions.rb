@@ -30,6 +30,10 @@ module Moory
           .to_set
       end
 
+      def egresses(state:)
+        alphabet(restrict: state)
+      end
+
       def storage
         @storage ||= {}
       end

@@ -7,6 +7,7 @@ RSpec.describe Moory::Machine do
     double("transition relation").tap do |dbl|
       allow(dbl).to receive(:states)
       allow(dbl).to receive(:alphabet)
+      allow(dbl).to receive(:egresses)
     end
   end
 
@@ -58,42 +59,23 @@ RSpec.describe Moory::Machine do
     end
   end
 
-  describe '#understand?' do
-    # NB: I think we can say: response ⇒ understand?
-    # but I'll need to prove this.
-    context 'given a state-specific alphabet,' do
-      before do
-        machine.state = state
+  describe '#awaits' do
+    it 'delegates to #transitions' do
+      machine.state = '0'
 
-        allow(transitions)
-          .to receive(:alphabet)
-          .with(restrict: state)
-          .and_return(state_alphabet)
-      end
+      machine.awaits
 
-      let(:state) { '0' }
-      let(:state_alphabet) { %w{ a b } }
-
-      context 'and message therein,' do
-        let(:message) { 'a' }
-
-        it 'will return true' do
-          expect(
-            machine.understand?(message)
-          ).to be
-        end
-      end
-
-      context 'and message not therein,' do
-        let(:message) { 'c' }
-
-        it 'will return false' do
-          expect(
-            machine.understand?(message)
-          ).not_to be
-        end
-      end
+      expect(
+        transitions
+      ).to have_received(
+        :egresses
+      ).with(
+        state: '0'
+      )
     end
+  end
+
+  describe '#understand?' do
   end
 
   describe '#always=' do

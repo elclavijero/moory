@@ -18,13 +18,12 @@ module Moory
 
     alias putm issue
 
-    def understand?(stimulus)
-      awaits.include?(stimulus)
+    def awaits
+      transitions.egresses(state:state)
     end
 
-    def awaits
-      transitions
-        .alphabet(restrict: state)
+    def understand?(stimulus)
+      awaits.include?(stimulus)
     end
 
     private
