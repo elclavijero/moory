@@ -35,6 +35,8 @@ module Moory
           target(state) << char
       end
 
+      alias special? understand?
+
       private
 
       def prepare
@@ -44,10 +46,6 @@ module Moory
       def target(state)
         @scan_data.send("#{state}=", '') unless @scan_data.send(state)
         @scan_data.send(state)
-      end
-
-      def special?(char)
-        understand?(char)
       end
     end
   end
