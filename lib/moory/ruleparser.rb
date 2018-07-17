@@ -29,12 +29,19 @@ module Moory
         @scan_data = Moory::Transition::Hasher.new
       end
 
-      def <<;end
+      def <<(char)
+        target(state) << char
+      end
 
       private
 
       def prepare
         reset
+      end
+
+      def target(state)
+        @scan_data.send("#{state}=", '') unless @scan_data.send(state)
+        @scan_data.send(state)
       end
     end
   end
