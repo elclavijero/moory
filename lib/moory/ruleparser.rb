@@ -61,5 +61,9 @@ module Moory
         IGNORE.include?(char)
       end
     end
+
+    class FileReader
+      def analyse;end
+    end
   end
 end
