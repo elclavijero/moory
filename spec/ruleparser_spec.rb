@@ -31,8 +31,8 @@ RSpec.describe Moory::RuleParser::Machine do
         end
       end
 
-      context 'given a colon,' do
-        it 'will change #state to stimulus' do
+      context 'given a special character,' do
+        it 'will change #state' do
           expect {
             machine << ':'
           }.to change {
