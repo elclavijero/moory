@@ -98,11 +98,39 @@ RSpec.describe Moory::RuleParser::Machine do
         end
 
         it 'will have output: "x"' do
-          expect(scan_data.stimulus).to eq('a')
+          expect(scan_data.output).to eq('x')
         end
 
         it 'will have nil for the remaining properties' do
           expect(scan_data.effector).to be_nil
+        end
+      end
+    end
+
+    context 'given the string: "0:a/x:1",' do
+      let(:scan_data) do
+        machine << "0:a/x/foo:1"
+      end
+      
+      describe 'the scan data returned' do
+        it 'will have origin: "0"' do
+          expect(scan_data.origin).to eq('0')
+        end
+
+        it 'will have stimulus: "a"' do
+          expect(scan_data.stimulus).to eq('a')
+        end
+
+        it 'will have settlement: "1"'  do
+          expect(scan_data.settlement).to eq('1')
+        end
+
+        it 'will have output: "x"' do
+          expect(scan_data.output).to eq('x')
+        end
+
+        it 'will have effector: "foo"' do
+          expect(scan_data.effector).to eq('foo')
         end
       end
     end
