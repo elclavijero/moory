@@ -8,8 +8,12 @@ RSpec.describe Moory::RuleParser::Machine do
       expect(machine).to respond_to(:scan_data)
     end
 
-    it 'exposes #<<' do
-      expect(machine).to respond_to(:<<)
+    it 'exposes #putc' do
+      expect(machine).to respond_to(:putc)
+    end
+
+    it 'exposes #puts' do
+      expect(machine).to respond_to(:puts)
     end
 
     it 'exposes #reset' do
@@ -17,11 +21,11 @@ RSpec.describe Moory::RuleParser::Machine do
     end
   end
 
-  describe '#<<' do
+  describe '#putc' do
     context 'having not yet been given any special characters,' do
       context 'given a succession of undistinuished characters' do
         before do
-          undistinguished_succession.each_char { |c| machine << c }
+          undistinguished_succession.each_char { |c| machine.putc(c) }
         end
 
         let(:undistinguished_succession) { "no colons or forward slashes" }
@@ -34,12 +38,43 @@ RSpec.describe Moory::RuleParser::Machine do
       context 'given a special character,' do
         it 'will change #state' do
           expect {
-            machine << ':'
+            machine.putc(':')
           }.to change {
             machine.state
           }.to (
             'stimulus'
           )
+        end
+      end
+    end
+  end
+
+  describe 'how strings are mapped to scan data' do
+    before(:each) do
+      machine.reset
+    end
+
+    context 'given the string: "0:a:1",' do
+      let(:scan_data) do
+        machine << "0:a:1"
+      end
+      
+      describe 'the scan data returned' do
+        it 'will have origin: "0"' do
+          expect(scan_data.origin).to eq('0')
+        end
+
+        it 'will have stimulus: "a"' do
+          expect(scan_data.stimulus).to eq('a')
+        end
+
+        it 'will have settlement: "1"'  do
+          expect(scan_data.settlement).to eq('1')
+        end
+
+        it 'will have nil for the remaining properties' do
+          expect(scan_data.output).to be_nil
+          expect(scan_data.effector).to be_nil
         end
       end
     end
