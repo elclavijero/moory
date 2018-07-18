@@ -16,36 +16,12 @@ RSpec.describe Moory::RuleParser::LineReader do
       expect(line_reader).to respond_to(:puts)
     end
 
+    it 'exposes #<<' do
+      expect(line_reader).to respond_to(:<<)
+    end
+
     it 'exposes #reset' do
       expect(line_reader).to respond_to(:reset)
-    end
-  end
-
-  describe '#putc' do
-    context 'having not yet been given any special characters,' do
-      context 'given a succession of undistinuished characters' do
-        before do
-          undistinguished_succession.each_char { |c| line_reader.putc(c) }
-        end
-
-        let(:undistinguished_succession) { "no_colons_or_forward_slashes" }
-
-        it 'will append those to #scan_data.origin' do
-          expect(line_reader.scan_data.origin).to eq(undistinguished_succession)
-        end
-      end
-
-      context 'given a special character,' do
-        it 'will change #state' do
-          expect {
-            line_reader.putc(':')
-          }.to change {
-            line_reader.state
-          }.to (
-            'stimulus'
-          )
-        end
-      end
     end
   end
 
