@@ -31,22 +31,24 @@ module Moory
         @scan_data = Moory::Transition::Hasher.new
       end
 
+      def <<(string)
+        puts(string)
+      end
+
+      private
+
       def puts(string)
         string.each_char { |c| putc(c) }
         scan_data
       end
 
-      alias << puts
+      alias special? understand?
 
       def putc(char)
         (special?(char) ?
           issue(char) :
           target(state) << char) unless ignore?(char)
       end
-
-      alias special? understand?
-
-      private
 
       def prepare
         reset

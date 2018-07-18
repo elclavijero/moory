@@ -8,14 +8,6 @@ RSpec.describe Moory::RuleParser::LineReader do
       expect(line_reader).to respond_to(:scan_data)
     end
 
-    it 'exposes #putc' do
-      expect(line_reader).to respond_to(:putc)
-    end
-
-    it 'exposes #puts' do
-      expect(line_reader).to respond_to(:puts)
-    end
-
     it 'exposes #<<' do
       expect(line_reader).to respond_to(:<<)
     end
