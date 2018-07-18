@@ -16,7 +16,7 @@ module Moory
       RULES.each { |r| ts.store(r) }
     }
 
-    class Machine < Moory::Machine
+    class LineReader < Moory::Machine
       attr_reader :scan_data
 
       IGNORE = [ ' ', '\t' ]

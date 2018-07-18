@@ -1,23 +1,23 @@
-RSpec.describe Moory::RuleParser::Machine do
-  let(:machine) do
-    Moory::RuleParser::Machine.new
+RSpec.describe Moory::RuleParser::LineReader do
+  let(:line_reader) do
+    Moory::RuleParser::LineReader.new
   end
 
   describe 'its interface' do
     it 'exposes #scan_data' do
-      expect(machine).to respond_to(:scan_data)
+      expect(line_reader).to respond_to(:scan_data)
     end
 
     it 'exposes #putc' do
-      expect(machine).to respond_to(:putc)
+      expect(line_reader).to respond_to(:putc)
     end
 
     it 'exposes #puts' do
-      expect(machine).to respond_to(:puts)
+      expect(line_reader).to respond_to(:puts)
     end
 
     it 'exposes #reset' do
-      expect(machine).to respond_to(:reset)
+      expect(line_reader).to respond_to(:reset)
     end
   end
 
@@ -25,22 +25,22 @@ RSpec.describe Moory::RuleParser::Machine do
     context 'having not yet been given any special characters,' do
       context 'given a succession of undistinuished characters' do
         before do
-          undistinguished_succession.each_char { |c| machine.putc(c) }
+          undistinguished_succession.each_char { |c| line_reader.putc(c) }
         end
 
         let(:undistinguished_succession) { "no_colons_or_forward_slashes" }
 
         it 'will append those to #scan_data.origin' do
-          expect(machine.scan_data.origin).to eq(undistinguished_succession)
+          expect(line_reader.scan_data.origin).to eq(undistinguished_succession)
         end
       end
 
       context 'given a special character,' do
         it 'will change #state' do
           expect {
-            machine.putc(':')
+            line_reader.putc(':')
           }.to change {
-            machine.state
+            line_reader.state
           }.to (
             'stimulus'
           )
@@ -51,12 +51,12 @@ RSpec.describe Moory::RuleParser::Machine do
 
   describe 'how strings are mapped to scan data' do
     before(:each) do
-      machine.reset
+      line_reader.reset
     end
 
     context 'given the string: "0:a:1",' do
       let(:scan_data) do
-        machine << "0:a:1"
+        line_reader << "0:a:1"
       end
       
       describe 'the scan data returned' do
@@ -81,7 +81,7 @@ RSpec.describe Moory::RuleParser::Machine do
 
     context 'given the string: "0:a/x:1",' do
       let(:scan_data) do
-        machine << "0:a/x:1"
+        line_reader << "0:a/x:1"
       end
       
       describe 'the scan data returned' do
@@ -109,7 +109,7 @@ RSpec.describe Moory::RuleParser::Machine do
 
     context 'given the string: "0:a/x:1",' do
       let(:scan_data) do
-        machine << "0:a/x/foo:1"
+        line_reader << "0:a/x/foo:1"
       end
       
       describe 'the scan data returned' do
@@ -137,7 +137,7 @@ RSpec.describe Moory::RuleParser::Machine do
 
     context 'given the string: "0  :  a/    x /foo  :    1    ",' do
       let(:scan_data) do
-        machine << "0  :  a/    x /foo  :    1    "
+        line_reader << "0  :  a/    x /foo  :    1    "
       end
       
       describe 'the scan data returned' do
