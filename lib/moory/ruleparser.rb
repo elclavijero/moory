@@ -40,7 +40,7 @@ module Moory
       def putc(char)
         (special?(char) ?
           issue(char) :
-          target(state) << char) unless @ignore.include?(char)
+          target(state) << char) unless ignore?(char)
       end
 
       alias special? understand?
@@ -54,6 +54,10 @@ module Moory
       def target(state)
         @scan_data.send("#{state}=", '') unless @scan_data.send(state)
         @scan_data.send(state)
+      end
+
+      def ignore?(char)
+        @ignore.include?(char)
       end
     end
   end
