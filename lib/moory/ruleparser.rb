@@ -21,6 +21,7 @@ module Moory
 
       def initialize
         @transitions = Transitions
+        @ignore = [ ' ', '\t' ]
         prepare
       end
 
@@ -37,9 +38,9 @@ module Moory
       alias << puts
 
       def putc(char)
-        special?(char) ?
+        (special?(char) ?
           issue(char) :
-          target(state) << char
+          target(state) << char) unless @ignore.include?(char)
       end
 
       alias special? understand?
