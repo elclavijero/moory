@@ -63,7 +63,19 @@ module Moory
     end
 
     class FileReader
-      def analyse;end
+      def initialize
+        @line_reader = Moory::RuleParser::LineReader.new
+      end
+
+      def analyse(input)
+        result = []
+        input.each_line do |line|
+          hasher = @line_reader << (line.chomp)
+          result << hasher
+          @line_reader.reset
+        end
+        result
+      end
     end
   end
 end
