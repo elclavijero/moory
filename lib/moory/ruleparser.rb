@@ -19,9 +19,10 @@ module Moory
     class Machine < Moory::Machine
       attr_reader :scan_data
 
+      IGNORE = [ ' ', '\t' ]
+
       def initialize
         @transitions = Transitions
-        @ignore = [ ' ', '\t' ]
         prepare
       end
 
@@ -57,7 +58,7 @@ module Moory
       end
 
       def ignore?(char)
-        @ignore.include?(char)
+        IGNORE.include?(char)
       end
     end
   end
