@@ -70,12 +70,13 @@ module Moory
       end
 
       def analyse(input)
-        result = []
-        input.each_line do |line|
-          result << (@line_reader << (line.chomp))
-          @line_reader.reset
-        end
-        result
+        input
+          .each_line
+          .reduce([]) do |list, line|
+            list << (@line_reader << (line.chomp))
+            @line_reader.reset
+            list
+          end
       end
     end
   end
