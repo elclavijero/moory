@@ -72,8 +72,7 @@ module Moory
       def analyse(input)
         result = []
         input.each_line do |line|
-          hasher = @line_reader << (line.chomp)
-          result << hasher
+          result << (@line_reader << (line.chomp))
           @line_reader.reset
         end
         result
