@@ -28,7 +28,6 @@ module Moory
 
       def reset
         @state     = 'origin'
-        # @scan_data = Moory::Transition::Hasher.new
         @scan_data = {}
       end
 
