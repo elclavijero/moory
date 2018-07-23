@@ -1,23 +1,15 @@
 require 'forwardable'
 
 module Moory
-  module Efferent
+  module Afferent
     attr_accessor :transitions
-    attr_accessor :repertoire
     attr_accessor :state
 
     extend Forwardable
     def_delegators :@transitions, :states, :alphabet
 
-    def_delegators :@repertoire, :always=, :always
-    def_delegators :@repertoire, :fallback=, :fallback
-
     def transitions
       @transitions ||= Moory::Transition::Storage.new
-    end
-
-    def repertoire
-      @repertoire ||= Moory::Repertoire.new
     end
 
     def issue(stimulus)
@@ -25,8 +17,6 @@ module Moory
         honour(response)
       end
     end
-
-    alias putm issue
 
     def awaits
       transitions.egresses(state:state)
@@ -38,19 +28,38 @@ module Moory
 
     private
 
+    def settle_accordingly(response)
+      @state = response[:settlement]
+    end
+
+    def honour(response)
+      settle_accordingly(response)
+    end
+  end
+
+  module Efferent
+    include Afferent
+
+    attr_accessor :repertoire
+
+    extend Forwardable
+    def_delegators :@repertoire, :always=, :always
+    def_delegators :@repertoire, :fallback=, :fallback
+
+    def repertoire
+      @repertoire ||= Moory::Repertoire.new
+    end
+
+    private
+
     def honour(response)
       perform(response) if repertoire
-
-      settle_accordingly(response)
+      super
     end
 
     def perform(response)
       perform_always(response[:output])
       perform_special(response)
-    end
-
-    def settle_accordingly(response)
-      @state = response[:settlement]
     end
 
     def perform_always(output)
