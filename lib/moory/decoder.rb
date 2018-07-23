@@ -2,9 +2,10 @@ module Moory
   class Decoder
     include Efferent
 
-    def initialize(rules:, initial:)
+    def initialize(rules:, initial:, ostream:$stdout)
       @initial = initial
       @state = initial
+      @ostream = ostream
       configure(rules)
     end
 
@@ -14,13 +15,11 @@ module Moory
     end
 
     def write(output=nil)
-      $stdout.write(output) if output
+      @ostream.write(output) if output
     end
 
     def decode(string)
-      string.each_char do |c|
-        issue(c)
-      end
+      string.each_char { |c| issue(c) }
     end
   end
 end
