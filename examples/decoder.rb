@@ -13,3 +13,4 @@ decoder = Moory::Decoder.new(
 )
 
 decoder.decode("abababababbabbabaa")
+# => abababababababa
