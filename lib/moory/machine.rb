@@ -12,8 +12,12 @@ module Moory
     def_delegators :@repertoire, :always=, :always
     def_delegators :@repertoire, :fallback=, :fallback
 
-    def initialize
-      @transitions = Moory::Transition::Storage.new
+    def transitions
+      @transitions ||= Moory::Transition::Storage.new
+    end
+
+    def repertoire
+      @repertoire ||= Moory::Repertoire.new
     end
 
     def issue(stimulus)

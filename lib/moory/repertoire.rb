@@ -14,7 +14,7 @@ module Moory
 
     def initialize
       @fallback  = SKIP
-      @fallback  = SKIP
+      @always    = SKIP
       @knowledge = {}
     end
 
