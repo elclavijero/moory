@@ -8,6 +8,11 @@ module Moory
       Loader.load(rules: rules, machine: self)
     end
     
+    # Answers whether the given string is accepted; that is, does it belong to
+    # the language described by the rules?
+    #
+    # @param string [String] the candidate string.
+    # @return [Boolean] true if the string is accepted; false, otherwise.
     def accepts?(string)
       reset
 
