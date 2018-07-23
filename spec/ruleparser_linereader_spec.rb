@@ -29,20 +29,20 @@ RSpec.describe Moory::RuleParser::LineReader do
       
       describe 'the scan data returned' do
         it 'will have origin: "0"' do
-          expect(scan_data.origin).to eq('0')
+          expect(scan_data[:origin]).to eq('0')
         end
 
         it 'will have stimulus: "a"' do
-          expect(scan_data.stimulus).to eq('a')
+          expect(scan_data[:stimulus]).to eq('a')
         end
 
         it 'will have settlement: "1"'  do
-          expect(scan_data.settlement).to eq('1')
+          expect(scan_data[:settlement]).to eq('1')
         end
 
         it 'will have nil for the remaining properties' do
-          expect(scan_data.output).to be_nil
-          expect(scan_data.effector).to be_nil
+          expect(scan_data["output"]).to be_nil
+          expect(scan_data["effector"]).to be_nil
         end
       end
     end
@@ -54,23 +54,23 @@ RSpec.describe Moory::RuleParser::LineReader do
       
       describe 'the scan data returned' do
         it 'will have origin: "0"' do
-          expect(scan_data.origin).to eq('0')
+          expect(scan_data[:origin]).to eq('0')
         end
 
         it 'will have stimulus: "a"' do
-          expect(scan_data.stimulus).to eq('a')
+          expect(scan_data[:stimulus]).to eq('a')
         end
 
         it 'will have settlement: "1"'  do
-          expect(scan_data.settlement).to eq('1')
+          expect(scan_data[:settlement]).to eq('1')
         end
 
         it 'will have output: "x"' do
-          expect(scan_data.output).to eq('x')
+          expect(scan_data[:output]).to eq('x')
         end
 
         it 'will have nil for the remaining properties' do
-          expect(scan_data.effector).to be_nil
+          expect(scan_data[:effector]).to be_nil
         end
       end
     end
@@ -82,23 +82,23 @@ RSpec.describe Moory::RuleParser::LineReader do
       
       describe 'the scan data returned' do
         it 'will have origin: "0"' do
-          expect(scan_data.origin).to eq('0')
+          expect(scan_data[:origin]).to eq('0')
         end
 
         it 'will have stimulus: "a"' do
-          expect(scan_data.stimulus).to eq('a')
+          expect(scan_data[:stimulus]).to eq('a')
         end
 
         it 'will have settlement: "1"'  do
-          expect(scan_data.settlement).to eq('1')
+          expect(scan_data[:settlement]).to eq('1')
         end
 
         it 'will have output: "x"' do
-          expect(scan_data.output).to eq('x')
+          expect(scan_data[:output]).to eq('x')
         end
 
         it 'will have effector: "foo"' do
-          expect(scan_data.effector).to eq('foo')
+          expect(scan_data[:effector]).to eq('foo')
         end
       end
     end
@@ -110,23 +110,23 @@ RSpec.describe Moory::RuleParser::LineReader do
       
       describe 'the scan data returned' do
         it 'will have origin: "0"' do
-          expect(scan_data.origin).to eq('0')
+          expect(scan_data[:origin]).to eq('0')
         end
 
         it 'will have stimulus: "a"' do
-          expect(scan_data.stimulus).to eq('a')
+          expect(scan_data[:stimulus]).to eq('a')
         end
 
         it 'will have settlement: "1"'  do
-          expect(scan_data.settlement).to eq('1')
+          expect(scan_data[:settlement]).to eq('1')
         end
 
         it 'will have output: "x"' do
-          expect(scan_data.output).to eq('x')
+          expect(scan_data[:output]).to eq('x')
         end
 
         it 'will have effector: "foo"' do
-          expect(scan_data.effector).to eq('foo')
+          expect(scan_data[:effector]).to eq('foo')
         end
       end
     end

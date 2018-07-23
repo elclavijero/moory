@@ -28,7 +28,8 @@ module Moory
 
       def reset
         @state     = 'origin'
-        @scan_data = Moory::Transition::Hasher.new
+        # @scan_data = Moory::Transition::Hasher.new
+        @scan_data = {}
       end
 
       def <<(string)
@@ -39,6 +40,7 @@ module Moory
 
       def puts(string)
         string.each_char { |c| putc(c) }
+        pp scan_data
         scan_data
       end
 
@@ -55,8 +57,7 @@ module Moory
       end
 
       def target(state)
-        @scan_data.send("#{state}=", '') unless @scan_data.send(state)
-        @scan_data.send(state)
+        @scan_data.fetch(state.to_sym) { |k| @scan_data[k] = '' }
       end
 
       def ignore?(char)

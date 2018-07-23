@@ -22,12 +22,12 @@ RSpec.describe Moory::RuleParser::FileReader do
 
       let(:expected) do
         [
-          Moory::Transition::Hasher.new(origin:"0", stimulus:"a", settlement:"1", output:"yes", effector:"foo"),
-          Moory::Transition::Hasher.new(origin:"0", stimulus:"b", settlement:"2", output:"no",  effector:"bar"),
-          Moory::Transition::Hasher.new(origin:"1", stimulus:"a", settlement:"2", output:"no",  effector:"bar"),
-          Moory::Transition::Hasher.new(origin:"1", stimulus:"b", settlement:"1", output:"yes", effector:"foo"),
-          Moory::Transition::Hasher.new(origin:"2", stimulus:"a", settlement:"2", output:"no",  effector:"bar"),
-          Moory::Transition::Hasher.new(origin:"2", stimulus:"b", settlement:"2", output:"no",  effector:"bar")
+          {origin:"0", stimulus:"a", settlement:"1", output:"yes", effector:"foo"},
+          {origin:"0", stimulus:"b", settlement:"2", output:"no",  effector:"bar"},
+          {origin:"1", stimulus:"a", settlement:"2", output:"no",  effector:"bar"},
+          {origin:"1", stimulus:"b", settlement:"1", output:"yes", effector:"foo"},
+          {origin:"2", stimulus:"a", settlement:"2", output:"no",  effector:"bar"},
+          {origin:"2", stimulus:"b", settlement:"2", output:"no",  effector:"bar"}
         ]
       end
 
