@@ -12,16 +12,25 @@ module Moory
       @transitions ||= Moory::Transition::Storage.new
     end
 
+    # Issue a stimulus to the machine.
+    #
+    # @return will either be the new `settlement`, or `nil` if the stimulus is not understood.
     def issue(stimulus)
       if response = transitions.response(origin: state, stimulus: stimulus)
         honour(response)
       end
     end
 
+    # Reveals the stimuli to which the machine may respond in its current state.
+    #
+    # @return [Set] 
     def awaits
       transitions.egresses(state:state)
     end
 
+    # Answers whether a machine can respond to the given stimlus in its current state.
+    #
+    # @return [Boolean]
     def understand?(stimulus)
       awaits.include?(stimulus)
     end
