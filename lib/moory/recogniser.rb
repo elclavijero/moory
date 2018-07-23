@@ -1,12 +1,13 @@
 module Moory
-  class Recogniser < Transducer
+  class Recogniser
+    include Afferent
+    
     def initialize(rules:, initial:, final:)
-      super()
       @initial = initial
       @final   = final
       Loader.load(rules: rules, machine: self)
     end
-
+    
     def accepts?(string)
       reset
 

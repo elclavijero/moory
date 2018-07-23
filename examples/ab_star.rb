@@ -15,10 +15,10 @@ rcg = Moory::Recogniser.new(
   ]
 )
 
-rcg.accepts?("a")   # => true
-rcg.accepts?("b")   # => false
-rcg.accepts?("c")   # => false
-rcg.accepts?("ab")  # => true
-rcg.accepts?("ac")  # => false
-rcg.accepts?("abb") # => true
-rcg.accepts?("abc") # => false
+pp rcg.accepts?("a")   # => true
+pp rcg.accepts?("b")   # => false
+pp rcg.accepts?("c")   # => false
+pp rcg.accepts?("ab")  # => true
+pp rcg.accepts?("ac")  # => false
+pp rcg.accepts?("abb") # => true
+pp rcg.accepts?("abc") # => false
