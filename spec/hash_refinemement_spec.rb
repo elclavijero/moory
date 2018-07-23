@@ -1,6 +1,6 @@
-RSpec.describe Moory::CollectionRefinement do
-  using Moory::CollectionRefinement::ArrayRefinement
-  using Moory::CollectionRefinement::HashRefinement
+RSpec.describe Moory::Refinement do
+  using Moory::Refinement::ArrayRefinement
+  using Moory::Refinement::HashRefinement
   
   let(:d) do
     %w{ x y z }

@@ -1,5 +1,5 @@
 module Moory
-  module CollectionRefinement
+  module Refinement
     module ArrayRefinement
       refine Array do
         def map_to(other)
