@@ -40,7 +40,6 @@ module Moory
 
       def puts(string)
         string.each_char { |c| putc(c) }
-        pp scan_data
         scan_data
       end
 

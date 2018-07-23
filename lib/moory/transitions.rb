@@ -1,3 +1,5 @@
+require 'set'
+
 module Moory
   module Transition
     class Storage

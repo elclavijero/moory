@@ -84,7 +84,6 @@ RSpec.describe Moory::CollectionRefinement do
     context 'when the other is inhabited' do
       context 'when other is the identity' do
         it 'returns a copy of self' do
-          pp r.identity_map
           expect(
             d_to_r.then( r.identity_map )
           ).to eq(

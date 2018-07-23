@@ -12,6 +12,10 @@ module Moory
     def_delegators :@repertoire, :always=, :always
     def_delegators :@repertoire, :fallback=, :fallback
 
+    def initialize
+      @transitions = Moory::Transition::Storage.new
+    end
+
     def issue(stimulus)
       if response = transitions.response(origin: state, stimulus: stimulus)
         honour(response)
