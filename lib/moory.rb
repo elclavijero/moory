@@ -7,6 +7,7 @@ require "moory/repertoire"
 
 require "moory/ruleparser"
 require "moory/loader"
+require "moory/recogniser"
 
 module Moory
   # Your code goes here...
