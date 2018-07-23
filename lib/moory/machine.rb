@@ -1,3 +1,5 @@
+require 'forwardable'
+
 module Moory
   class Machine
     attr_accessor :transitions
