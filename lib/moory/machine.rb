@@ -1,7 +1,7 @@
 require 'forwardable'
 
 module Moory
-  class Machine
+  module Efferent
     attr_accessor :transitions
     attr_accessor :repertoire
     attr_accessor :state
@@ -67,5 +67,9 @@ module Moory
     def guarded_call(receiver, output)
       output ? receiver.call(output) : receiver.call
     end
+  end
+
+  class Machine
+    include Efferent
   end
 end
