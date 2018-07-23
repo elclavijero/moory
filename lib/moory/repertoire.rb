@@ -5,17 +5,17 @@ module Moory
     attr_reader :knowledge, :fallback, :always
 
     def Repertoire.from_hash(hash={})
-      new.tap { |r|
-        hash.each { |k,v|
-          r.learn(name: k, item: v)
-        }
-      }
+      new.tap { |r| r.cram(hash) }
     end
 
     def initialize
       @fallback  = SKIP
       @always    = SKIP
       @knowledge = {}
+    end
+
+    def cram(hash={})
+      hash.each { |k,v| learn(name: k, item: v) }
     end
 
     def learn(item:,name:)
