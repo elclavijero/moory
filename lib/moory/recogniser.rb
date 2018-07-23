@@ -1,5 +1,5 @@
 module Moory
-  class Recogniser < Machine
+  class Recogniser < Transducer
     def initialize(rules:, initial:, final:)
       super()
       @initial = initial

@@ -1,7 +1,7 @@
 require 'moory'
 
 module Moory
-  class Decoder < Machine
+  class Decoder < Transducer
     def initialize(rules:, initial:)
       super()
       @initial = initial

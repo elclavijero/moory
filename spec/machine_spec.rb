@@ -1,6 +1,6 @@
-RSpec.describe Moory::Machine do
+RSpec.describe Moory::Transducer do
   let(:machine) do
-    Moory::Machine.new
+    Moory::Transducer.new
   end
 
   let(:transitions) do

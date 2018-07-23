@@ -78,7 +78,7 @@ module Moory
     end
   end
 
-  class Machine
+  class Transducer
     include Efferent
   end
 end
