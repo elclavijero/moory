@@ -54,6 +54,10 @@ class Logistic
     active_unit.issue(stimulus)
   end
 
+  def done?
+    deferrals.empty?
+  end
+
   private
 
   def create_units
@@ -122,3 +126,5 @@ logistic.issue('(')
 logistic.issue('(')
 logistic.issue(')')
 logistic.issue(')')
+
+pp logistic.done?
