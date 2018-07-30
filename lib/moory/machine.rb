@@ -62,8 +62,8 @@ module Moory
     private
 
     def honour(response)
-      perform(response) if repertoire
       super
+      perform(response) if repertoire
     end
 
     def perform(response)
