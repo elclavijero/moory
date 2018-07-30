@@ -26,7 +26,7 @@ module Moory
       end
     end
     
-    class Logistic
+    class Controller
       def initialize(config)
         @config = config
         prepare_units
