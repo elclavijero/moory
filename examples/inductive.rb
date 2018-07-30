@@ -97,16 +97,22 @@ class Logistic
 end
 
 config = {
-  basis: 'B',
+  basis: 'basis',
   specs: {
-    'B' => {
-      initial: '0',
+    'basis' => {
+      initial: 'ε',
       rules: """
-        0 : ( / B / defer     : 1
-        0 : ) /   / reconvene : 2
-        1 : ) /   / reconvene : 2
+        ε : ( / parenthetical / defer : δ
       """,
     },
+    'parenthetical' => {
+      initial: 'ε',
+      rules: """
+        ε : ( / parenthetical / defer  : δ
+        ε : ) // reconvene : closed
+        δ : ) // reconvene : closed
+      """
+    }
   }
 }
 
@@ -114,7 +120,5 @@ logistic = Logistic.new(config)
 
 logistic.issue('(')
 logistic.issue('(')
-logistic.issue('(')
-logistic.issue(')')
 logistic.issue(')')
 logistic.issue(')')
