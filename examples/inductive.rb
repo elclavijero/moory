@@ -100,7 +100,7 @@ class Logistic
   end
 end
 
-config = {
+balanced_parens_config = {
   basis: 'basis',
   specs: {
     'basis' => {
@@ -120,11 +120,10 @@ config = {
   }
 }
 
-logistic = Logistic.new(config)
+logistic = Logistic.new(balanced_parens_config)
 
-logistic.issue('(')
-logistic.issue('(')
-logistic.issue(')')
-logistic.issue(')')
+"(()".each_char do |c|
+  logistic.issue(c)
+end
 
 pp logistic.done?
