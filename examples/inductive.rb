@@ -6,22 +6,21 @@ nested_terms_config = {
     'basis' => {
       initial: '^',
       rules: """
-      ^ : term : $
-      ^ : ( / parenthetical / defer : D
+      ^ : constant : $
 
-      D : term : $
+      ^ : prefix / prefixed / defer : Δ
+
+      Δ : term : $
       """,
     },
-    'parenthetical' => {
+    'prefixed' => {
       initial: '^',
       rules: """
-      ^ : ) / void /reconvene       : $
-      T : ) / term / reconvene      : $
-      
-      ^ : term                      : T
-      D : term                      : T
-      
-      ^ : ( / parenthetical / defer : D
+      ^ : constant / term / reconvene : $
+
+      ^ : prefix / prefixed / defer   : Δ
+
+      Δ : term / term / reconvene : $
       """
     }
   }
@@ -30,11 +29,10 @@ nested_terms_config = {
 logistic = Moory::Logistic::Controller.new(nested_terms_config)
 
 %w{
-  (
-  (
-    term
-  )
-  )
+  prefix
+  prefix
+  prefix
+  constant
 }.each do |w|
   logistic.issue(w)
 end
