@@ -1,29 +1,42 @@
 require 'moory'
 
-balanced_parens_config = {
+nested_terms_config = {
   basis: 'basis',
   specs: {
     'basis' => {
-      initial: 'ε',
+      initial: '^',
       rules: """
-        ε : ( / parenthetical / defer : δ
+      ^ : term : $
+      ^ : ( / parenthetical / defer : D
+
+      D : term : $
       """,
     },
     'parenthetical' => {
-      initial: 'ε',
+      initial: '^',
       rules: """
-        ε : ( / parenthetical / defer  : δ
-        ε : ) // reconvene : ω
-        δ : ) // reconvene : ω
+      ^ : ) / void /reconvene       : $
+      T : ) / term / reconvene      : $
+      
+      ^ : term                      : T
+      D : term                      : T
+      
+      ^ : ( / parenthetical / defer : D
       """
     }
   }
 }
 
-logistic = Moory::Logistic::Controller.new(balanced_parens_config)
+logistic = Moory::Logistic::Controller.new(nested_terms_config)
 
-"(()".each_char do |c|
-  logistic.issue(c)
+%w{
+  (
+  (
+    term
+  )
+  )
+}.each do |w|
+  logistic.issue(w)
 end
 
 pp logistic.done?
