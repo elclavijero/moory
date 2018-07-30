@@ -90,13 +90,15 @@ module Moory
         active_unit.prime
       end
     
-      def reconvene(stimulus)
+      def reconvene(stimulus=nil)
         raise "Cannot reconvene without prior deferral" if deferrals.empty?
     
         deferrals.pop.tap do |last_deferral|
           focus_on(last_deferral[:name])
           active_unit.state = last_deferral[:state]
         end
+
+        active_unit.issue(stimulus) if stimulus
       end
     end
   end
