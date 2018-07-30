@@ -13,14 +13,14 @@ balanced_parens_config = {
       initial: 'ε',
       rules: """
         ε : ( / parenthetical / defer  : δ
-        ε : ) // reconvene : closed
-        δ : ) // reconvene : closed
+        ε : ) // reconvene : ω
+        δ : ) // reconvene : ω
       """
     }
   }
 }
 
-logistic = Moory::Logistic::Logistic.new(balanced_parens_config)
+logistic = Moory::Logistic::Controller.new(balanced_parens_config)
 
 "(()".each_char do |c|
   logistic.issue(c)
