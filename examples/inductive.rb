@@ -4,7 +4,6 @@ prefix_infix_constant_config = {
   basis: 'basis',
   specs: {
     'basis' => {
-      initial: '^',
       rules: """
       ^ : constant : $
 
@@ -16,7 +15,6 @@ prefix_infix_constant_config = {
       """,
     },
     'open' => {
-      initial: '^',
       rules: """
       ^ : constant / term / reconvene : $
 

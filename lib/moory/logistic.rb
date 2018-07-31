@@ -3,7 +3,7 @@ module Moory
     class Unit
       include Moory::Efferent
     
-      def initialize(rules:, initial:)
+      def initialize(rules:, initial:'^')
         @initial = initial
         configure(rules)
       end
