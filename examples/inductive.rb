@@ -1,11 +1,13 @@
 require 'moory'
 
-prefix_infix_parenthetical_constant_config = {
+pipcv_config = {
   basis: 'basis',
   specs: {
     'basis' => {
       rules: """
       ^ : constant : $
+
+      ^ : variable : $
 
       ^ : prefix / open          / defer : Δ
 
@@ -20,6 +22,8 @@ prefix_infix_parenthetical_constant_config = {
       rules: """
       ^ : constant / term          / reconvene : $
 
+      ^ : variable / term          / reconvene : $
+
       ^ : prefix   / open          / defer : Δ
 
       ^ : (        / parenthetical / defer : Δ
@@ -32,6 +36,8 @@ prefix_infix_parenthetical_constant_config = {
     'parenthetical' => {
       rules: """
       ^ : constant : C
+
+      ^ : variable : C
 
       ^ : prefix / open          / defer : Δ
 
@@ -49,7 +55,7 @@ prefix_infix_parenthetical_constant_config = {
   }
 }
 
-logistic = Moory::Logistic::Controller.new(prefix_infix_parenthetical_constant_config)
+logistic = Moory::Logistic::Controller.new(pipcv_config)
 
 %w{
   (
@@ -59,19 +65,21 @@ logistic = Moory::Logistic::Controller.new(prefix_infix_parenthetical_constant_c
       infix
       prefix
       (
-        constant
+        variable
         infix
         prefix
         (
-          constant
+          variable
         )
       )
     )
-  ) 
+  )
+  infix
 }.each do |w|
   logistic.issue(w)
 end
 
+pp logistic.deferrals
+
 pp logistic.done?
 
-pp logistic.deferrals
