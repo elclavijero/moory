@@ -1,6 +1,6 @@
 require 'moory'
 
-nested_terms_config = {
+prefix_infix_constant_config = {
   basis: 'basis',
   specs: {
     'basis' => {
@@ -8,31 +8,39 @@ nested_terms_config = {
       rules: """
       ^ : constant : $
 
-      ^ : prefix / prefixed / defer : Δ
+      ^ : prefix / open / defer : Δ
 
+      $ : infix  / open / defer : Δ
+      
       Δ : term : $
       """,
     },
-    'prefixed' => {
+    'open' => {
       initial: '^',
       rules: """
       ^ : constant / term / reconvene : $
 
-      ^ : prefix / prefixed / defer   : Δ
+      ^ : prefix / open / defer : Δ
 
+      $ : infix  / open / defer : Δ
+      
       Δ : term / term / reconvene : $
-      """
+      """,
     }
   }
 }
 
-logistic = Moory::Logistic::Controller.new(nested_terms_config)
+logistic = Moory::Logistic::Controller.new(prefix_infix_constant_config)
 
 %w{
-  prefix
-  prefix
+  constant
+  infix
   prefix
   constant
+  infix
+  constant
+  infix
+  prefix
 }.each do |w|
   logistic.issue(w)
 end
