@@ -9,11 +9,6 @@ module Moory
       configure(rules)
     end
 
-    # Decode a string according to the rules.  Writes the decoded string to the output 
-    #   stream configured at initialisation (which is $stdout, by default).  Characters
-    #   not belonging to the alphabet will be dropped.
-    #
-    # @param string [String] the string you wish to decode
     def decode(string)
       string.each_char { |c| issue(c) }
     end
