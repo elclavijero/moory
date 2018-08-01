@@ -15,6 +15,7 @@ module Moory
     def issue(stimulus)
       if response = transitions.response(origin: state, stimulus: stimulus)
         honour(response)
+        state
       end
     end
 
