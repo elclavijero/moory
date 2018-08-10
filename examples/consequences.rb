@@ -57,26 +57,21 @@ pipcv_config = {
 
 logistic = Moory::Logistic::Controller.new(pipcv_config)
 
-%w{
-  (
-    (
-      prefix
-      constant
-      infix
-      prefix
-      (
-        variable
-        infix
-        prefix
-        (
-          variable
-        )
-      )
-    )
-  )
-  infix
-}.each do |w|
-  logistic.issue(w)
-end
-
-pp logistic.deferrals
+pp logistic.issue('(')
+pp logistic.issue('(')
+pp logistic.issue('prefix')
+pp logistic.issue('constant')
+pp logistic.issue('infix')
+pp logistic.issue('prefix')
+pp logistic.issue('(')
+pp logistic.issue('variable')
+pp logistic.issue('infix')
+pp logistic.issue('prefix')
+pp logistic.issue('(')
+pp logistic.issue('variable')
+pp logistic.issue(')')
+pp logistic.issue(')')
+pp logistic.issue(')')
+pp logistic.issue(')')
+pp logistic.issue('infix')
+pp logistic.issue('variable')

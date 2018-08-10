@@ -1,5 +1,11 @@
 module Moory
   module Logistic
+    module NilExtensions
+      refine NilClass do
+        def <<(other);end
+      end
+    end
+
     class Unit
       include Moory::Efferent
     
@@ -27,6 +33,8 @@ module Moory
     end
     
     class Controller
+      using NilExtensions
+
       def initialize(config)
         @config = config
         prepare_units
@@ -51,11 +59,11 @@ module Moory
       end
     
       def issue(stimulus)
-        active_unit.issue(stimulus)
-      end
-    
-      def done?
-        deferrals.empty?
+        @consequences = []
+
+        active_unit.understand?(stimulus) ?
+          forward(stimulus) :
+          nil
       end
     
       private
@@ -78,8 +86,15 @@ module Moory
       def focus_on(unit_name)
         @focus = unit_name
       end
+
+      def forward(stimulus)
+        active_unit.issue(stimulus)
+        @consequences
+      end
     
       def defer(unit_name)
+        @consequences << :defer
+
         deferrals.push(
           {
             name:  @focus.clone,
@@ -92,6 +107,8 @@ module Moory
     
       def reconvene(stimulus=nil)
         raise "Cannot reconvene without prior deferral" if deferrals.empty?
+
+        @consequences << :reconvene
     
         deferrals.pop.tap do |last_deferral|
           focus_on(last_deferral[:name])
