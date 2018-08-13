@@ -61,9 +61,13 @@ module Moory
       def issue(stimulus)
         @consequences = []
 
-        active_unit.understand?(stimulus) ?
-          forward(stimulus) :
+        understand?(stimulus) ?
+          distribute(stimulus) :
           nil
+      end
+
+      def understand?(stimulus)
+        active_unit.understand?(stimulus)
       end
     
       private
@@ -87,7 +91,7 @@ module Moory
         @focus = unit_name
       end
 
-      def forward(stimulus)
+      def distribute(stimulus)
         active_unit.issue(stimulus)
         @consequences
       end
