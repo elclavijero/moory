@@ -17,6 +17,10 @@ RSpec.describe Moory::Filter do
     spy('the consumer')
   end
 
+  let(:the_quarantine) do
+    spy('the quarantine')
+  end
+
   describe 'the machine described by our_rules' do
     context 'in state "^"' do
       before do
@@ -51,10 +55,20 @@ RSpec.describe Moory::Filter do
         end
       end
 
-      context 'given a stimulus unknown to this state' do
+      context 'given a stimulus unknown to this state,' do
         let(:unknown) { 'z' }
 
-        
+        context 'if a quarantine has been assigned,' do
+          before do
+            the_filter.quarantine = the_quarantine
+          end
+
+          it 'the quarantine will be called with the unknown character' do
+            the_filter.issue(unknown)
+
+            expect(the_quarantine).to have_received(:call).with(unknown)
+          end
+        end
       end
     end
   end
