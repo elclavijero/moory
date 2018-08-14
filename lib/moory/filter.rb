@@ -2,11 +2,12 @@ module Moory
   class Filter < Moory::Logistic::Unit
     IGNORE = [' ', "\t", "\n"]
     DEFAULT_CONSUMER = $stdout.method(:puts)
+    IGNORE_FOREIGN   = proc { |c| "Warning! Ignoring unknown character: #{c}" }
   
-    def initialize(rules:, consumer:DEFAULT_CONSUMER)
+    def initialize(rules:, consumer:DEFAULT_CONSUMER, quarantine:IGNORE_FOREIGN)
       @buffer = ""
       @consumer = consumer
-      super(rules: rules)
+      super(rules: rules, quarantine:quarantine)
     end
   
     def configure(rules)
