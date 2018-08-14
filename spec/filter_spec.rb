@@ -45,7 +45,7 @@ RSpec.describe Moory::Filter do
             the_filter.consumer = nil
           end
 
-          it 'the DEFAULT_CONSUMER will be called with "p"' do
+          it 'DEFAULT_CONSUMER will be called with "p"' do
             allow(Moory::Filter::DEFAULT_CONSUMER).to receive(:call)
 
             the_filter.issue('p')
@@ -68,6 +68,20 @@ RSpec.describe Moory::Filter do
 
             expect(the_quarantine).to have_received(:call).with(unknown)
           end
+        end
+
+        context 'if the quarantine is missing,' do
+          before do
+            the_filter.quarantine = nil
+          end
+
+          # it 'IGNORE_UNKNOWN will be called with the unknown character' do
+          #   allow(Moory::Filter::IGNORE_UNKNOWN).to receive(:call)
+
+          #   the_filter.issue(unknown)
+  
+          #   expect(Moory::Filter::IGNORE_UNKNOWN).to have_received(:call).with(unknown)
+          # end
         end
       end
     end

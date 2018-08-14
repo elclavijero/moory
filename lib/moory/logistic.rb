@@ -9,11 +9,8 @@ module Moory
     class Unit
       include Moory::Efferent
 
-      attr_accessor :quarantine
-
-      def initialize(rules:, initial:'^',quarantine:nil)
+      def initialize(rules:, initial:'^')
         @initial    = initial
-        @quarantine = quarantine
         configure(rules)
       end
     
@@ -35,9 +32,7 @@ module Moory
       end
 
       def bad_stimulus(stimulus)
-        quarantine ?
-          quarantine.call(stimulus) :
-          (raise "Unexpected #{stimulus}")
+        raise "Unexpected #{stimulus}"
       end
     end
     

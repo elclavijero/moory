@@ -1,15 +1,17 @@
 module Moory
   class Filter < Moory::Logistic::Unit
     attr_writer :consumer
+    attr_writer :quarantine
 
     IGNORE = [' ', "\t", "\n"]
     DEFAULT_CONSUMER = $stdout.method(:puts)
-    IGNORE_FOREIGN   = proc { |c| pp "Warning! Ignoring unknown character: #{c}" }
+    IGNORE_UNKNOWN   = proc { |c| pp "Warning! Ignoring unknown character: #{c}" }
   
-    def initialize(rules:, consumer:DEFAULT_CONSUMER, quarantine:IGNORE_FOREIGN)
+    def initialize(rules:, consumer:DEFAULT_CONSUMER, quarantine:IGNORE_UNKNOWN)
       @buffer = ""
-      @consumer = consumer
-      super(rules: rules, quarantine:quarantine)
+      @consumer   = consumer
+      @quarantine = quarantine
+      super(rules: rules)
     end
   
     def configure(rules)
@@ -29,8 +31,18 @@ module Moory
       @buffer = ""
     end
 
+    private
+
+    def bad_stimulus(stimulus)
+      quarantine.call(stimulus)
+    end
+
     def consumer
       @consumer || DEFAULT_CONSUMER
+    end
+
+    def quarantine
+      @quarantine || IGNORE_UNKNOWN
     end
   end
 end
