@@ -8,8 +8,10 @@ module Moory
 
     class Unit
       include Moory::Efferent
-    
-      def initialize(rules:, initial:'^')
+
+      attr_accessor :quarantine
+
+      def initialize(rules:, initial:'^',quarantine:nil)
         @initial = initial
         configure(rules)
       end
@@ -17,7 +19,7 @@ module Moory
       def issue(stimulus)
         understand?(stimulus) ?
           super :
-          (raise "Unexpected #{stimulus}")
+          bad_stimulus(stimulus)
       end
     
       def prime
@@ -29,6 +31,12 @@ module Moory
       def configure(rules)
         Moory::Loader.load(rules:rules, machine:self)
         prime
+      end
+
+      def bad_stimulus(stimulus)
+        quarantine ?
+          quarantine.call(stimulus) :
+          (raise "Unexpected #{stimulus}")
       end
     end
     
