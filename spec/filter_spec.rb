@@ -36,7 +36,7 @@ RSpec.describe Moory::Filter do
           end
         end
 
-        context 'if a consumer has not been assigned' do
+        context 'if a consumer is missing' do
           before do
             the_filter.consumer = nil
           end
