@@ -52,6 +52,14 @@ RSpec.describe Moory::Filter do
   
             expect(Moory::Filter::DEFAULT_CONSUMER).to have_received(:call).with('p')
           end
+
+          it 'the buffer will not grow' do
+            expect{
+              the_filter.issue('p')
+            }.not_to change {
+              the_filter.buffer
+            }
+          end
         end
       end
 
@@ -83,7 +91,7 @@ RSpec.describe Moory::Filter do
             expect(Moory::Filter::IGNORE_UNKNOWN).to have_received(:call).with(unknown)
           end
 
-          it 'the buffer will not change' do
+          it 'the buffer will not grow' do
             expect{
               the_filter.issue(unknown)
             }.not_to change {
