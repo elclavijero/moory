@@ -7,6 +7,7 @@ module Moory
     def initialize(rules:, consumer:DEFAULT_CONSUMER, quarantine:IGNORE_FOREIGN)
       @buffer = ""
       @consumer = consumer
+      @quarantine = quarantine
       super(rules: rules, quarantine:quarantine)
     end
   
