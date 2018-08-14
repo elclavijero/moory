@@ -2,6 +2,7 @@ module Moory
   class Filter < Moory::Logistic::Unit
     attr_writer :consumer
     attr_writer :quarantine
+    attr_reader :buffer
 
     IGNORE = [' ', "\t", "\n"]
     DEFAULT_CONSUMER = $stdout.method(:puts)
@@ -35,6 +36,7 @@ module Moory
 
     def bad_stimulus(stimulus)
       quarantine.call(stimulus)
+      @buffer = @buffer.slice(0..-2)
     end
 
     def consumer

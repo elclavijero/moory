@@ -75,13 +75,21 @@ RSpec.describe Moory::Filter do
             the_filter.quarantine = nil
           end
 
-          # it 'IGNORE_UNKNOWN will be called with the unknown character' do
-          #   allow(Moory::Filter::IGNORE_UNKNOWN).to receive(:call)
+          it 'IGNORE_UNKNOWN will be called with the unknown character' do
+            allow(Moory::Filter::IGNORE_UNKNOWN).to receive(:call)
 
-          #   the_filter.issue(unknown)
+            the_filter.issue(unknown)
   
-          #   expect(Moory::Filter::IGNORE_UNKNOWN).to have_received(:call).with(unknown)
-          # end
+            expect(Moory::Filter::IGNORE_UNKNOWN).to have_received(:call).with(unknown)
+          end
+
+          it 'the buffer will not change' do
+            expect{
+              the_filter.issue(unknown)
+            }.not_to change {
+              the_filter.buffer
+            }
+          end
         end
       end
     end
