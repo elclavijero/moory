@@ -12,7 +12,8 @@ module Moory
       attr_accessor :quarantine
 
       def initialize(rules:, initial:'^',quarantine:nil)
-        @initial = initial
+        @initial    = initial
+        @quarantine = quarantine
         configure(rules)
       end
     
