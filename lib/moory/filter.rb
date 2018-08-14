@@ -6,7 +6,7 @@ module Moory
 
     IGNORE = [' ', "\t", "\n"]
     DEFAULT_CONSUMER = $stdout.method(:puts)
-    IGNORE_UNKNOWN   = proc { |c| pp "Warning! Ignoring unknown character: #{c}" }
+    IGNORE_UNKNOWN   = proc { |c| warn "Warning! Ignoring unknown character: #{c}" }
   
     def initialize(rules:, consumer:DEFAULT_CONSUMER, quarantine:IGNORE_UNKNOWN)
       @buffer = ""
