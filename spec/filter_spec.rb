@@ -100,6 +100,28 @@ RSpec.describe Moory::Filter do
           end
         end
       end
+
+      describe 'issuing characters that are held by the buffer' do
+        context 'in state "^"' do
+          before do
+            the_filter.state = '^'
+          end
+
+          context 'after issuing an "a"' do
+            before do
+              the_filter.issue('a')
+            end
+
+            it 'the buffer will be "a"' do
+              expect(the_filter.buffer).to eq('a')
+            end
+
+            it 'the state will be "a"' do
+              expect(the_filter.state).to eq('a')
+            end
+          end
+        end
+      end
     end
   end
 end
