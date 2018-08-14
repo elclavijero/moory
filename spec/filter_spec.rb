@@ -120,6 +120,21 @@ RSpec.describe Moory::Filter do
               expect(the_filter.state).to eq('a')
             end
           end
+
+          context 'after issuing "ab"' do
+            before do
+              the_filter.issue('a')
+              the_filter.issue('b')
+            end
+
+            it 'the buffer will be "ab"' do
+              expect(the_filter.buffer).to eq('ab')
+            end
+
+            it 'the state will be "a"' do
+              expect(the_filter.state).to eq('ab')
+            end
+          end
         end
       end
     end
