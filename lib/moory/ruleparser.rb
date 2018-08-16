@@ -42,10 +42,10 @@ module Moory
         scan_data
       end
 
-      alias special? understand?
+      alias delimiter? understand?
 
       def putc(char)
-        (special?(char) ?
+        (delimiter?(char) ?
           issue(char) :
           target(state) << char) unless ignore?(char)
       end
