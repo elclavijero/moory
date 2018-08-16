@@ -8,8 +8,12 @@ module Moory
       end
       
       def store(params)
-        storage.merge!(Shunter.new(params)) do |key, oldval, newval|
-          oldval.merge!(newval)
+        if params.class == Hash
+          storage.merge!(Shunter.new(params)) do |key, oldval, newval|
+            oldval.merge!(newval)
+          end
+        else
+          fail "Cannot accept parameters from an object of class: #{params.class}"
         end
       end
 

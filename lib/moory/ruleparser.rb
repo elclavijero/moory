@@ -47,7 +47,11 @@ module Moory
       def putc(char)
         (delimiter?(char) ?
           issue(char) :
-          target(state) << char) unless ignore?(char)
+          hold(char)) unless ignore?(char)
+      end
+
+      def hold(char)
+        target(state) << char
       end
 
       def prepare
