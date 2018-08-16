@@ -57,12 +57,6 @@ module Moory
       def to_hash(for_storage: true)
         return {} unless valid?
 
-        for_storage ?  storage_hash : flat_hash
-      end
-
-      private
-
-      def storage_hash
         p = Pair.new(left: origin, right: stimulus)
 
         p.shunt({ 
@@ -70,16 +64,6 @@ module Moory
           output:     output,
           effector:   effector
         }.compact)
-      end
-
-      def flat_hash
-        {
-          origin: origin,
-          stimulus: stimulus,
-          settlement: settlement,
-          output: output,
-          effector: effector
-        }
       end
     end
   end
