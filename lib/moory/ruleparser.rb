@@ -19,7 +19,7 @@ module Moory
     class LineReader < Moory::Transducer
       attr_reader :scan_data
 
-      IGNORE = [ ' ', '\t' ]
+      IGNORE = [ " ", "\t" ]
 
       def initialize
         @transitions = Transitions
