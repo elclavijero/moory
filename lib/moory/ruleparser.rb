@@ -39,7 +39,9 @@ module Moory
 
       def puts(string)
         string.each_char { |c| putc(c) }
-        scan_data
+        scan_data.transform_values do |v|
+          v == '~s~' ? " " : v
+        end
       end
 
       alias delimiter? understand?
