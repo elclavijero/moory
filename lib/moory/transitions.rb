@@ -8,7 +8,7 @@ module Moory
       end
       
       def store(params)
-        storage.merge!(Hasher.new(params)) do |key, oldval, newval|
+        storage.merge!(Shunter.new(params)) do |key, oldval, newval|
           oldval.merge!(newval)
         end
       end
@@ -41,7 +41,7 @@ module Moory
       end
     end
 
-    Hasher = Struct.new(
+    Shunter = Struct.new(
       :origin,
       :stimulus,
       :settlement,
