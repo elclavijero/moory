@@ -54,7 +54,7 @@ module Moory
         origin && stimulus && settlement
       end
 
-      def to_hash(for_storage: true)
+      def to_hash
         return {} unless valid?
 
         p = Pair.new(left: origin, right: stimulus)
